@@ -32,7 +32,7 @@ ctk.set_default_color_theme("blue")
 # ===============================
 janela = ctk.CTk()
 janela.title("ScratchV")
-janela.iconbitmap(resource_path("icon.ico"))
+janela.iconbitmap(resource_path("images/icon.ico"))
 janela.geometry("700x400")
 janela.minsize(500, 250)
 janela.maxsize(900, 600)
@@ -125,7 +125,7 @@ frame_central.pack(expand=True, fill="both")
 # ===============================
 # Fundo
 # ===============================
-imagem_original = Image.open(resource_path("plano_fundo.jpeg")).convert("RGBA")
+imagem_original = Image.open(resource_path("images/plano_fundo.jpeg")).convert("RGBA")
 alpha = 0.3
 imagem_transparente = Image.blend(imagem_original, Image.new("RGBA", imagem_original.size), 1 - alpha)
 
@@ -172,9 +172,9 @@ frame_topo = ctk.CTkFrame(frame_central, fg_color="transparent")
 frame_topo.place(relx=1.0, rely=0.0, anchor="ne")
 
 # carregar imagens
-img_br_color, img_br_gray = carregar_bandeira("br.png")
-img_en_color, img_en_gray = carregar_bandeira("us.png")
-img_cn_color, img_cn_gray = carregar_bandeira("cn.png")
+img_br_color, img_br_gray = carregar_bandeira("images/br.png")
+img_en_color, img_en_gray = carregar_bandeira("images/us.png")
+img_cn_color, img_cn_gray = carregar_bandeira("images/cn.png")
 
 botao_br = ctk.CTkButton(
     frame_topo, text="", image=img_br_color,
