@@ -87,34 +87,44 @@ def atualizar_botoes_idioma():
 # ===============================
 # Funções dos botões
 # ===============================
+def mostrar_erro(msg):
+    label_erro.configure(text=msg)
+
+    # remove depois de 3 segundos (3000 ms)
+    janela.after(3000, lambda: label_erro.configure(text=""))
 
 def carregar_zip():
     global codigo_python
 
-    arquivo_zip = filedialog.askopenfilename(
-        title="Selecione um arquivo .sb3",
-        filetypes=[("Arquivos Scratch", "*.sb3")]
-    )
+    try:
+        arquivo_zip = filedialog.askopenfilename(
+            title="Selecione um arquivo .sb3",
+            filetypes=[("Arquivos Scratch", "*.sb3")]
+        )
 
-    if not arquivo_zip:
-        return
-    
-    project = load_sb3(arquivo_zip)
-    codigo_python = gerar_codigo_python(project)
+        if not arquivo_zip:
+            return
+        
+        project = load_sb3(arquivo_zip)
+        codigo_python = gerar_codigo_python(project)
 
-    # GERA O ASSEMBLY
-    gerar_assembly(codigo_python)
+        gerar_assembly(codigo_python)
 
-    for i in range(101):
-        barra_progresso.set(i/100)
-        janela.update()
-        time.sleep(0.01)
-    
-    print(f"Arquivo carregado: {arquivo_zip}")
+        for i in range(101):
+            barra_progresso.set(i/100)
+            janela.update()
+            time.sleep(0.01)
+        
+        print(f"Arquivo carregado: {arquivo_zip}")
 
-    print("\nCODIGO GERADO:\n")
-    for linha in codigo_python:
-        print(linha)
+        print("\nCODIGO GERADO:\n")
+        for linha in codigo_python:
+            print(linha)
+
+    except KeyError:
+        mostrar_erro("Erro: IF não aceita valor imediato (use variável)")
+    except Exception as e:
+        mostrar_erro(f"Erro interno: {e}")
 
 # ===============================
 # Frame central
@@ -149,7 +159,7 @@ frame_central.bind("<Configure>", atualizar_fundo)
 # ===============================
 # BARRA + BOTÃO
 # ===============================
-barra_progresso = ctk.CTkProgressBar(frame_central, width=400)
+barra_progresso = ctk.CTkProgressBar(frame_central, width=400, progress_color="#19E912")
 barra_progresso.place(relx=0.5, rely=0.3, anchor="center")
 barra_progresso.set(0)
 
@@ -157,12 +167,20 @@ botao_zip = ctk.CTkButton(
     frame_central,
     text="Carregar .sb3",
     command=carregar_zip,
-    fg_color="#f7e714",       # cor do botão
-    hover_color="#E98512",    # cor ao passar o mouse
+    fg_color="#E98512",       # cor do botão
+    hover_color="#f7e714",    # cor ao passar o mouse
     text_color="black"          # cor do texto
 )
 
 botao_zip.place(relx=0.5, rely=0.45, anchor="center")
+
+label_erro = ctk.CTkLabel(
+    frame_central,
+    text="",
+    text_color="#ff4d4d",
+    font=("Arial", 14)
+)
+label_erro.place(relx=0.5, rely=0.55, anchor="center")
 
 # ===============================
 # BOTÕES DE IDIOMA (TOPO DIREITO)
@@ -297,57 +315,148 @@ def gerar_assembly(codigo_python):
                 conteudo = linha[3:]
                 var1, var2 = conteudo.split("|")
 
+                if var1.isdigit():
+                    raise Exception("Erro: IF não aceita valor imediato, use uma variável")
+
+                if var2.isdigit():
+                    raise Exception("Erro: IF não aceita valor imediato, use uma variável")
+                
                 r1 = registradores[var1]
                 r2 = registradores[var2]
 
-                label_true = f"IF_EQUAL_{label_id}"
-                label_end = f"IF_NOT_EQUAL_{label_id}"
 
-                stack_labels.append((label_true, label_end))
-                label_id += 1
+                if idioma == "pt":
+                    label_true = f"SE_IGUAL_{label_id}"
+                    label_end = f"SE_NAO_IGUAL_{label_id}"
 
-                f.write(f"   beq t{r1}, t{r2}, {label_true}      # Compara os valores armazenados, se t{r1} = t{r2} pula para {label_true}, se nao continua \n\n")
-                f.write(f"   j {label_end}             # Salta para {label_end} \n\n")
+                    stack_labels.append((label_true, label_end))
+                    label_id += 1
+
+                    f.write(f"   beq t{r1}, t{r2}, {label_true}      # Compara os valores armazenados, se t{r1} = t{r2} pula para {label_true}, se nao continua \n\n")
+                    f.write(f"   j {label_end}             # Salta para {label_end} \n\n")
             
+                elif idioma == "en":
+
+                    label_true = f"IF_EQUAL_{label_id}"
+                    label_end = f"IF_NOT_EQUAL_{label_id}"
+
+                    stack_labels.append((label_true, label_end))
+                    label_id += 1
+
+                    f.write(f"   beq t{r1}, t{r2}, {label_true}      # Compare the stored values, if t{r1} = t{r2} jump to {label_true}, if not, continue \n\n")
+                    f.write(f"   j {label_end}             # Jump to {label_end} \n\n")
+
+                elif idioma == "cn":
+
+                    label_true = f"IF_EQUAL_{label_id}"
+                    label_end = f"IF_NOT_EQUAL_{label_id}"
+
+                    stack_labels.append((label_true, label_end))
+                    label_id += 1
+
+                    f.write(f"   beq t{r1}, t{r2}, {label_true}      # 比较存储的值,  如果 t{r1} = t{r2} 则跳转至 {label_true}, 否则继续执行 \n\n")
+                    f.write(f"   j {label_end}             # 跳转至 {label_end} \n\n")
             # =========================
             # IF MAIOR (BGT)
             # =========================
             elif linha.startswith("i>"):
 
-                conteudo = linha[2:]  # remove "i>"
-
+                conteudo = linha.split("=", 1)[1]
                 var1, var2 = conteudo.split("|")
+
+                if var1.isdigit():
+                    raise Exception("Erro: IF não aceita valor imediato, use uma variável")
+
+                if var2.isdigit():
+                    raise Exception("Erro: IF não aceita valor imediato, use uma variável")
 
                 r1 = registradores[var1]
                 r2 = registradores[var2]
 
-                f.write(f"   bgt t{r1}, t{r2}, MAIOR\n\n")
+                if idioma == "pt":
+                    label_true = f"SE_MAIOR_{label_id}"
+                    label_end = f"SE_NAO_MAIOR_{label_id}"
+
+                    stack_labels.append((label_true, label_end))
+                    label_id += 1
+
+                    f.write(f"   bgt t{r1}, t{r2}, {label_true}      # Se t{r1} > t{r2}, pula para {label_true}\n\n")
+                    f.write(f"   j {label_end}             # Senao, pula para {label_end}\n\n")
+
+                elif idioma == "en":
+                    label_true = f"IF_GREATER_{label_id}"
+                    label_end = f"IF_NOT_GREATER_{label_id}"
+
+                    stack_labels.append((label_true, label_end))
+                    label_id += 1
+
+                    f.write(f"   bgt t{r1}, t{r2}, {label_true}      # If t{r1} > t{r2}, jump to {label_true}\n\n")
+                    f.write(f"   j {label_end}             # Otherwise jump to {label_end}\n\n")
+
+                elif idioma == "cn":
+                    label_true = f"IF_GREATER_{label_id}"
+                    label_end = f"IF_NOT_GREATER_{label_id}"
+
+                    stack_labels.append((label_true, label_end))
+                    label_id += 1
+
+                    f.write(f"   bgt t{r1}, t{r2}, {label_true}      # 如果 t{r1} > t{r2}, 跳转到 {label_true}\n\n")
+                    f.write(f"   j {label_end}             # 否则跳转到 {label_end}\n\n")
 
             # =========================
             # IF MENOR (BLT)
             # =========================
             elif linha.startswith("i<"):
 
-                conteudo = linha[2:]
-
+                conteudo = linha.split("=", 1)[1]
                 var1, var2 = conteudo.split("|")
+
+                if var1.isdigit():
+                    raise Exception("Erro: IF não aceita valor imediato, use uma variável")
+
+                if var2.isdigit():
+                    raise Exception("Erro: IF não aceita valor imediato, use uma variável")
 
                 r1 = registradores[var1]
                 r2 = registradores[var2]
 
-                f.write(f"   blt t{r1}, t{r2}, MENOR\n\n")
-            
+                if idioma == "pt":
+                    label_true = f"SE_MENOR_{label_id}"
+                    label_end = f"SE_NAO_MENOR_{label_id}"
+
+                    stack_labels.append((label_true, label_end))
+                    label_id += 1
+
+                    f.write(f"   blt t{r1}, t{r2}, {label_true}      # Se t{r1} < t{r2}, pula para {label_true}\n\n")
+                    f.write(f"   j {label_end}             # Senao, pula para {label_end}\n\n")
+
+                elif idioma == "en":
+                    label_true = f"IF_LESS_{label_id}"
+                    label_end = f"IF_NOT_LESS_{label_id}"
+
+                    stack_labels.append((label_true, label_end))
+                    label_id += 1
+
+                    f.write(f"   blt t{r1}, t{r2}, {label_true}      # If t{r1} < t{r2}, jump to {label_true}\n\n")
+                    f.write(f"   j {label_end}             # Otherwise jump to {label_end}\n\n")
+
+                elif idioma == "cn":
+                    label_true = f"IF_LESS_{label_id}"
+                    label_end = f"IF_NOT_LESS_{label_id}"
+
+                    stack_labels.append((label_true, label_end))
+                    label_id += 1
+
+                    f.write(f"   blt t{r1}, t{r2}, {label_true}      # 如果 t{r1} < t{r2}, 跳转到 {label_true}\n\n")
+                    f.write(f"   j {label_end}             # 否则跳转到 {label_end}\n\n")
+
             elif linha == "IF_START":
-
                 label_true, _ = stack_labels[-1]
+                f.write(f"{label_true}:\n")      
 
-                f.write(f"{label_true}:\n")
-            
             elif linha == "IF_END":
-
                 _, label_end = stack_labels.pop()
-
-                f.write(f"{label_end}:\n\n")
+                f.write(f"{label_end}:\n\n")          
 
             else:
                 print("Linha não reconhecida:", linha)
