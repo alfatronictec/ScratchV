@@ -117,12 +117,13 @@ def carregar_zip():
         
         print(f"Arquivo carregado: {arquivo_zip}")
 
-        print("\nCODIGO GERADO:\n")
+        print("\ GERADO:\n")
         for linha in codigo_python:
             print(linha)
 
-    except KeyError:
-        mostrar_erro("Erro: IF não aceita valor imediato (use variável)")
+    except KeyError as e:
+        mostrar_erro(f"Variável não definida: {e}")
+
     except Exception as e:
         mostrar_erro(f"Erro interno: {e}")
 
@@ -226,11 +227,21 @@ def gerar_assembly(codigo_python):
     label_id = 0
     stack_labels = []
 
+
     with open("codigo_gerado.asm", "w", encoding="utf-8") as f:
+
 
         f.write(".text\n\n")
 
         for linha in codigo_python:
+
+            print(f"[DEBUG LINHA]: '{linha}'")
+            
+            linha = linha.strip()   # 🔥 CORRETO
+
+            if not linha:
+                continue
+
 
             if linha.startswith("v="):
                 partes = linha.split("=")
@@ -255,39 +266,93 @@ def gerar_assembly(codigo_python):
             # SOMA
             # =========================
             elif linha.startswith("vr+"):
+                print("DEBUG SOMA:", linha)
+                conteudo = linha.split("=", 1)[1].strip()
 
-                var = linha.split("=")[1].strip()
-                
-                if idioma == "pt":
-                    f.write(f"   add t{reg}, t{reg-2}, t{reg-1}   # Soma o valor armazenado em t{reg-1} com o armazenado em t{reg-2} e armazena o resultado no registrador t{reg} \n\n")
+                # Caso 1: formato ideal → soma|var1|var2
+                if "|" in conteudo:
+                    partes = conteudo.split("|")
 
-                elif idioma == "en":
-                    f.write(f"   add t{reg}, t{reg-2}, t{reg-1}   # Add the value stored in t{reg-1} to the value stored in t{reg-2} and store the result in the register t{reg} \n\n")
+                    if len(partes) != 3:
+                        raise Exception(f"Formato inválido para soma: {linha}")
 
-                elif idioma == "cn":
-                    f.write(f"   add t{reg}, t{reg-2}, t{reg-1}   # 将存储在 t{reg-1} 中的值与存储在 t{reg-2} 中的值相加，并将结果存储在寄存器 t{reg} 中 \n\n")
+                    var_dest = partes[0].strip()
+                    op1 = partes[1].strip()
+                    op2 = partes[2].strip()
 
-                registradores[var] = reg  
+                # Caso 2: formato tipo → soma=(var1+var2)
+                elif "+" in conteudo:
+                    var_dest, expr = conteudo.split("=", 1)
+                    var_dest = var_dest.strip()
 
+                    expr = expr.replace("(", "").replace(")", "")
+                    op1, op2 = expr.split("+")
+
+                    op1 = op1.strip()
+                    op2 = op2.strip()
+
+                else:
+                    raise Exception(f"Formato inválido para soma: {linha}")
+
+                # Validação
+                if op1 not in registradores:
+                    raise Exception(f"Variável não definida: {op1}")
+                if op2 not in registradores:
+                    raise Exception(f"Variável não definida: {op2}")
+
+                r1 = registradores[op1]
+                r2 = registradores[op2]
+
+                f.write(f"   add t{reg}, t{r1}, t{r2}   # {var_dest} = {op1} + {op2}\n\n")
+
+                registradores[var_dest] = reg
                 ultimo_reg = reg
                 reg += 1
-
             # =========================
             # SUBTRAÇÃO
             # =========================
             elif linha.startswith("vr-"):
+                print("DEBUG SUB:", linha)
+                conteudo = linha.split("=", 1)[1].strip()
 
-                var = linha.split("=")[1].strip()
-                if idioma == "pt":
-                    f.write(f"   sub t{reg}, t{reg-2}, t{reg-1}   # Subtrai o valor armazenado em t{reg-1} do valor armazenado em t{reg-2} e armazena no registrador t{reg} \n\n")
-                elif idioma == "en":
-                    f.write(f"   sub t{reg}, t{reg-2}, t{reg-1}   # Subtracts the value in t{reg-1} from t{reg-2} and stores the result in t{reg} \n\n")
-                elif idioma == "cn":
-                    f.write(f"   sub t{reg}, t{reg-2}, t{reg-1}   # 将 t{reg-2} 中的值减去 t{reg-1} 中的值，并将结果存入寄存器 t{reg} \n\n")
-                registradores[var] = reg  
+                # Caso 1: formato ideal → soma|var1|var2
+                if "|" in conteudo:
+                    partes = conteudo.split("|")
+
+                    if len(partes) != 3:
+                        raise Exception(f"Formato inválido para sub: {linha}")
+
+                    var_dest = partes[0].strip()
+                    op1 = partes[1].strip()
+                    op2 = partes[2].strip()
+
+                # Caso 2: formato tipo → soma=(var1-var2)
+                elif "-" in conteudo:
+                    expr = conteudo.replace("(", "").replace(")", "")
+                    op1, op2 = expr.split("-")
+
+                    op1 = op1.strip()
+                    op2 = op2.strip()
+
+                else:
+                    raise Exception(f"Formato inválido para sub: {linha}")
+
+                # Validação
+                if op1 not in registradores:
+                    raise Exception(f"Variável não definida: {op1}")
+                if op2 not in registradores:
+                    raise Exception(f"Variável não definida: {op2}")
+
+                r1 = registradores[op1]
+                r2 = registradores[op2]
+
+                f.write(f"   sub t{reg}, t{r1}, t{r2}   # {var_dest} = {op1} - {op2}\n\n")
+
+                registradores[var_dest] = reg
                 ultimo_reg = reg
                 reg += 1
 
+            
             # =========================
             # PRINT
             # =========================
@@ -312,18 +377,22 @@ def gerar_assembly(codigo_python):
             # =========================
             elif linha.startswith("i="):
 
-                conteudo = linha[3:]
+                conteudo = linha.split("=", 1)[1].strip()
                 var1, var2 = conteudo.split("|")
 
+                var1 = var1.strip()
+                var2 = var2.strip()
+
+                print("DEBUG IF:", var1, var2)
+
                 if var1.isdigit():
-                    raise Exception("Erro: IF não aceita valor imediato, use uma variável")
+                    raise Exception(f"IF inválido: {var1} é imediato")
 
                 if var2.isdigit():
-                    raise Exception("Erro: IF não aceita valor imediato, use uma variável")
-                
+                    raise Exception(f"IF inválido: {var2} é imediato")
+                            
                 r1 = registradores[var1]
                 r2 = registradores[var2]
-
 
                 if idioma == "pt":
                     label_true = f"SE_IGUAL_{label_id}"
@@ -365,11 +434,13 @@ def gerar_assembly(codigo_python):
                 var1, var2 = conteudo.split("|")
 
                 if var1.isdigit():
-                    raise Exception("Erro: IF não aceita valor imediato, use uma variável")
+                    print("var1 Erro: IF não aceita valor imediato, use uma variável")
+                    raise Exception("Erro i>: IF não aceita valor imediato, use uma variável")
 
                 if var2.isdigit():
-                    raise Exception("Erro: IF não aceita valor imediato, use uma variável")
-
+                    print("var2 Erro: IF não aceita valor imediato, use uma variável")
+                    raise Exception("Erro i>: IF não aceita valor imediato, use uma variável")
+               
                 r1 = registradores[var1]
                 r2 = registradores[var2]
 
@@ -412,11 +483,13 @@ def gerar_assembly(codigo_python):
                 var1, var2 = conteudo.split("|")
 
                 if var1.isdigit():
-                    raise Exception("Erro: IF não aceita valor imediato, use uma variável")
-
+                    print("i< var1 Erro: IF não aceita valor imediato, use uma variável")
+                    raise Exception("Erro i< : IF não aceita valor imediato, use uma variável")
+                
                 if var2.isdigit():
-                    raise Exception("Erro: IF não aceita valor imediato, use uma variável")
-
+                    print("i< var2 Erro: IF não aceita valor imediato, use uma variável")
+                    raise Exception("Erro i< :: IF não aceita valor imediato, use uma variável")
+                
                 r1 = registradores[var1]
                 r2 = registradores[var2]
 

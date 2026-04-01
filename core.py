@@ -103,7 +103,13 @@ def op_data_setvariableto(bloco, blocks, variaveis, codigo_python):
 
         if opcode_op in OPERADORES:
             simbolo = OPERADOR_SIMBOLO[opcode_op]
-            codigo_python.append(f"vr{simbolo}={variavel}")
+
+            bloco_op = blocks[valor_raw]
+
+            op1 = extrair_nome(bloco_op["inputs"]["NUM1"], blocks)
+            op2 = extrair_nome(bloco_op["inputs"]["NUM2"], blocks)
+
+            codigo_python.append(f"vr{simbolo}={variavel}|{op1}|{op2}")
             return
 
     codigo_python.append(f"v={variavel} = {valor}")
@@ -116,6 +122,9 @@ def op_data_showvariable(bloco, blocks, variaveis, codigo_python):
 
 
 def op_control_if(bloco, blocks, variaveis, codigo_python):
+
+    if "CONDITION" not in bloco["inputs"]:
+        return  # não é um IF válido
 
     cond_id = bloco["inputs"]["CONDITION"][1]
 
@@ -171,5 +180,6 @@ def gerar_codigo_python(project):
                         )
 
                     current = b["next"]
-
+    print("codigo_python:\n")
+    print(codigo_python)
     return codigo_python
