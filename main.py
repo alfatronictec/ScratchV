@@ -261,6 +261,9 @@ def gerar_assembly(codigo_python):
                     reg += 1
                 else:
                     registradores[var] = ultimo_reg
+                
+                if(reg >6):
+                    raise Exception(f"Ultrapassou o Numero de Variaveis: {linha}")
             
             # =========================
             # SOMA
@@ -308,6 +311,10 @@ def gerar_assembly(codigo_python):
                 registradores[var_dest] = reg
                 ultimo_reg = reg
                 reg += 1
+
+                if(reg >6):
+                    raise Exception(f"Ultrapassou o Numero de Variaveis: {linha}")
+                
             # =========================
             # SUBTRAÇÃO
             # =========================
