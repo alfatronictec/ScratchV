@@ -247,73 +247,64 @@ def gerar_assembly(codigo_python):
                 partes = linha.split("=")
                 var = partes[1].strip()
 
+                # Verifica se há um valor imediato
+                valor = None
                 if len(partes) > 2 and partes[2].strip().isdigit():
                     valor = partes[2].strip()
-                    
-                    if idioma == "pt":
-                        f.write(f"   li t{reg}, {valor}                 # Armazena o valor {valor} no registrador t{reg}\n\n")
-                    elif idioma == "en":
-                        f.write(f"   li t{reg}, {valor}                 # Store the value {valor} in register t{reg}\n\n")
-                    elif idioma == "cn":
-                        f.write(f"   li t{reg}, {valor}                 # 将值 {valor} 存入寄存器 t{reg}\n\n")
-                    registradores[var] = reg
-                    ultimo_reg = reg
-                    reg += 1
+
+                # Reutiliza registrador se a variável já existir
+                if var in registradores:
+                    reg_var = registradores[var]
                 else:
-                    registradores[var] = ultimo_reg
-                
-                if(reg >6):
-                    raise Exception(f"Ultrapassou o Numero de Variaveis: {linha}")
-            
+                    reg_var = reg
+                    registradores[var] = reg_var
+                    reg += 1
+
+                    if reg > 6:
+                        raise Exception(f"Ultrapassou o Número de Variáveis: {linha}")
+
+                ultimo_reg = reg_var
+
+                # Geração do assembly
+                if valor is not None:
+                    if idioma == "pt":
+                        f.write(f"   li t{reg_var}, {valor}                 # Armazena o valor {valor} no registrador t{reg}\n\n")
+                    elif idioma == "en":
+                        f.write(f"   li t{reg_var}, {valor}                 # Store the value {valor} in register t{reg}\n\n")
+                    elif idioma == "cn":
+                        f.write(f"   li t{reg_var}, {valor}                 # 将值 {valor} 存入寄存器 t{reg}\n\n")
+
             # =========================
             # SOMA
             # =========================
             elif linha.startswith("vr+"):
-                print("DEBUG SOMA:", linha)
                 conteudo = linha.split("=", 1)[1].strip()
+                var_dest, op1, op2 = [p.strip() for p in conteudo.split("|")]
 
-                # Caso 1: formato ideal → soma|var1|var2
-                if "|" in conteudo:
-                    partes = conteudo.split("|")
-
-                    if len(partes) != 3:
-                        raise Exception(f"Formato inválido para soma: {linha}")
-
-                    var_dest = partes[0].strip()
-                    op1 = partes[1].strip()
-                    op2 = partes[2].strip()
-
-                # Caso 2: formato tipo → soma=(var1+var2)
-                elif "+" in conteudo:
-                    var_dest, expr = conteudo.split("=", 1)
-                    var_dest = var_dest.strip()
-
-                    expr = expr.replace("(", "").replace(")", "")
-                    op1, op2 = expr.split("+")
-
-                    op1 = op1.strip()
-                    op2 = op2.strip()
-
-                else:
-                    raise Exception(f"Formato inválido para soma: {linha}")
-
-                # Validação
-                if op1 not in registradores:
-                    raise Exception(f"Variável não definida: {op1}")
-                if op2 not in registradores:
-                    raise Exception(f"Variável não definida: {op2}")
+                if op1 not in registradores or op2 not in registradores:
+                    raise Exception(f"Variável não definida: {linha}")
 
                 r1 = registradores[op1]
                 r2 = registradores[op2]
 
-                f.write(f"   add t{reg}, t{r1}, t{r2}   # {var_dest} = {op1} + {op2}\n\n")
+                # Reutiliza registrador do destino
+                if var_dest in registradores:
+                    reg_dest = registradores[var_dest]
+                else:
+                    reg_dest = reg
+                    registradores[var_dest] = reg_dest
+                    reg += 1
 
-                registradores[var_dest] = reg
-                ultimo_reg = reg
-                reg += 1
-
-                if(reg >6):
-                    raise Exception(f"Ultrapassou o Numero de Variaveis: {linha}")
+                    if reg > 6:
+                        raise Exception(f"Ultrapassou o Número de Variáveis: {linha}")
+                
+                if idioma == "pt":
+                    f.write(f"   add t{reg_dest}, t{r1}, t{r2}              # Soma o valor armazenado em t{r1} com o armazenado em t{r2} e armazena o resultado no registrador t{reg_dest} \n\n")
+                elif idioma == "en":
+                    f.write(f"   add t{reg_dest}, t{r1}, t{r2}              # Soma o valor armazenado em t{r1} com o armazenado em t{r2} e armazena o resultado no registrador t{reg_dest} \n\n")
+                elif idioma == "cn":
+                    f.write(f"   add t{reg_dest}, t{r1}, t{r2}              # Soma o valor armazenado em t{r1} com o armazenado em t{r2} e armazena o resultado no registrador t{reg_dest} \n\n")
+                ultimo_reg = reg_dest
                 
             # =========================
             # SUBTRAÇÃO
@@ -322,7 +313,7 @@ def gerar_assembly(codigo_python):
                 print("DEBUG SUB:", linha)
                 conteudo = linha.split("=", 1)[1].strip()
 
-                # Caso 1: formato ideal → soma|var1|var2
+                # Caso 1: formato ideal → var_dest|var1|var2
                 if "|" in conteudo:
                     partes = conteudo.split("|")
 
@@ -335,7 +326,10 @@ def gerar_assembly(codigo_python):
 
                 # Caso 2: formato tipo → soma=(var1-var2)
                 elif "-" in conteudo:
-                    expr = conteudo.replace("(", "").replace(")", "")
+                    var_dest, expr = conteudo.split("=", 1)
+                    var_dest = var_dest.strip()
+
+                    expr = expr.replace("(", "").replace(")", "")
                     op1, op2 = expr.split("-")
 
                     op1 = op1.strip()
@@ -344,7 +338,7 @@ def gerar_assembly(codigo_python):
                 else:
                     raise Exception(f"Formato inválido para sub: {linha}")
 
-                # Validação
+                # Validação das variáveis de origem
                 if op1 not in registradores:
                     raise Exception(f"Variável não definida: {op1}")
                 if op2 not in registradores:
@@ -353,12 +347,26 @@ def gerar_assembly(codigo_python):
                 r1 = registradores[op1]
                 r2 = registradores[op2]
 
-                f.write(f"   sub t{reg}, t{r1}, t{r2}   # {var_dest} = {op1} - {op2}\n\n")
+                # 🔹 Reutiliza registrador da variável de destino, se existir
+                if var_dest in registradores:
+                    reg_dest = registradores[var_dest]
+                else:
+                    reg_dest = reg
+                    registradores[var_dest] = reg_dest
+                    reg += 1
 
-                registradores[var_dest] = reg
-                ultimo_reg = reg
-                reg += 1
+                    if reg > 6:
+                        raise Exception(f"Ultrapassou o Número de Variáveis: {linha}")
 
+                # Geração do assembly
+                if idioma == "pt":
+                    f.write(f"   sub t{reg_dest}, t{r1}, t{r2}              # Subtrai o valor armazenado em t{r1} do valor armazenado em t{r2} e armazena no registrador t{reg_dest} \n\n")
+                elif idioma == "en":
+                    f.write(f"   sub t{reg_dest}, t{r1}, t{r2}              # Subtrai o valor armazenado em t{r1} do valor armazenado em t{r2} e armazena no registrador t{reg_dest} \n\n")
+                elif idioma == "cn":
+                    f.write(f"   sub t{reg_dest}, t{r1}, t{r2}              # Subtrai o valor armazenado em t{r1} do valor armazenado em t{r2} e armazena no registrador t{reg_dest} \n\n")
+
+                ultimo_reg = reg_dest
             
             # =========================
             # PRINT
@@ -379,107 +387,71 @@ def gerar_assembly(codigo_python):
                     f.write("   li a7, 1             # 将值 1 写入寄存器 a7，该值定义了系统调用（syscall）的代码，1 表示“打印整数”（print integer）\n")
                     f.write(f"   add a0, t{r}, zero    # 将寄存器 t2 的值复制到 a0，a0 是用于传递系统调用参数的寄存器，即待输出的整数\n") 
                     f.write("   ecall                # 执行系统调用（environment call）\n\n")
+
             # =========================
             # IF IGUAL (BEQ)
             # =========================
-            elif linha.startswith("i="):
+            elif linha.startswith("i=="):
 
-                conteudo = linha.split("=", 1)[1].strip()
-                var1, var2 = conteudo.split("|")
+                # Remove o prefixo 'i=='
+                conteudo = linha[len("i=="):].strip()
 
-                var1 = var1.strip()
-                var2 = var2.strip()
+                try:
+                    var1, var2 = [v.strip() for v in conteudo.split("|")]
+                except ValueError:
+                    raise Exception(f"Formato inválido para igualdade: {linha}")
 
                 print("DEBUG IF:", var1, var2)
 
-                if var1.isdigit():
-                    raise Exception(f"IF inválido: {var1} é imediato")
+                # Validação
+                if var1 not in registradores:
+                    raise Exception(f"Variável não definida: {var1}")
+                if var2 not in registradores:
+                    raise Exception(f"Variável não definida: {var2}")
 
-                if var2.isdigit():
-                    raise Exception(f"IF inválido: {var2} é imediato")
-                            
                 r1 = registradores[var1]
                 r2 = registradores[var2]
 
+                # Criação de labels
                 if idioma == "pt":
                     label_true = f"SE_IGUAL_{label_id}"
-                    label_end = f"SE_NAO_IGUAL_{label_id}"
-
-                    stack_labels.append((label_true, label_end))
-                    label_id += 1
-
-                    f.write(f"   beq t{r1}, t{r2}, {label_true}      # Compara os valores armazenados, se t{r1} = t{r2} pula para {label_true}, se nao continua \n\n")
-                    f.write(f"   j {label_end}             # Salta para {label_end} \n\n")
-            
-                elif idioma == "en":
-
+                    label_end = f"FIM_SE_{label_id}"
+                else:
                     label_true = f"IF_EQUAL_{label_id}"
-                    label_end = f"IF_NOT_EQUAL_{label_id}"
+                    label_end = f"IF_END_{label_id}"
 
-                    stack_labels.append((label_true, label_end))
-                    label_id += 1
+                # Armazena apenas TRUE e END
+                stack_labels.append((label_true, label_end))
+                label_id += 1
 
-                    f.write(f"   beq t{r1}, t{r2}, {label_true}      # Compare the stored values, if t{r1} = t{r2} jump to {label_true}, if not, continue \n\n")
-                    f.write(f"   j {label_end}             # Jump to {label_end} \n\n")
-
-                elif idioma == "cn":
-
-                    label_true = f"IF_EQUAL_{label_id}"
-                    label_end = f"IF_NOT_EQUAL_{label_id}"
-
-                    stack_labels.append((label_true, label_end))
-                    label_id += 1
-
-                    f.write(f"   beq t{r1}, t{r2}, {label_true}      # 比较存储的值,  如果 t{r1} = t{r2} 则跳转至 {label_true}, 否则继续执行 \n\n")
-                    f.write(f"   j {label_end}             # 跳转至 {label_end} \n\n")
+                # Estrutura de um IF sem ELSE
+                f.write(
+                    f"   beq t{r1}, t{r2}, {label_true}      "
+                    f"# Se {var1} == {var2}, pula para {label_true}\n"
+                )
+                f.write(
+                    f"   j {label_end}                       "
+                    f"# Caso contrário, pula para {label_end}\n\n"
+                )
             # =========================
             # IF MAIOR (BGT)
             # =========================
             elif linha.startswith("i>"):
-
                 conteudo = linha.split("=", 1)[1]
                 var1, var2 = conteudo.split("|")
 
-                if var1.isdigit():
-                    print("var1 Erro: IF não aceita valor imediato, use uma variável")
-                    raise Exception("Erro i>: IF não aceita valor imediato, use uma variável")
+                r1 = registradores[var1.strip()]
+                r2 = registradores[var2.strip()]
 
-                if var2.isdigit():
-                    print("var2 Erro: IF não aceita valor imediato, use uma variável")
-                    raise Exception("Erro i>: IF não aceita valor imediato, use uma variável")
-               
-                r1 = registradores[var1]
-                r2 = registradores[var2]
+                label_true = f"IF_TRUE_{label_id}"
+                label_else = f"IF_FALSE_{label_id}"
+                label_end = f"IF_END_{label_id}"
 
-                if idioma == "pt":
-                    label_true = f"SE_MAIOR_{label_id}"
-                    label_end = f"SE_NAO_MAIOR_{label_id}"
+                stack_labels.append((label_true, label_else, label_end))
+                label_id += 1
 
-                    stack_labels.append((label_true, label_end))
-                    label_id += 1
-
-                    f.write(f"   bgt t{r1}, t{r2}, {label_true}      # Se t{r1} > t{r2}, pula para {label_true}\n\n")
-                    f.write(f"   j {label_end}             # Senao, pula para {label_end}\n\n")
-
-                elif idioma == "en":
-                    label_true = f"IF_GREATER_{label_id}"
-                    label_end = f"IF_NOT_GREATER_{label_id}"
-
-                    stack_labels.append((label_true, label_end))
-                    label_id += 1
-
-                    f.write(f"   bgt t{r1}, t{r2}, {label_true}      # If t{r1} > t{r2}, jump to {label_true}\n\n")
-                    f.write(f"   j {label_end}             # Otherwise jump to {label_end}\n\n")
-
-                elif idioma == "cn":
-                    label_true = f"IF_GREATER_{label_id}"
-                    label_end = f"IF_NOT_GREATER_{label_id}"
-
-                    stack_labels.append((label_true, label_end))
-                    label_id += 1
-
-                    f.write(f"   bgt t{r1}, t{r2}, {label_true}      # 如果 t{r1} > t{r2}, 跳转到 {label_true}\n\n")
-                    f.write(f"   j {label_end}             # 否则跳转到 {label_end}\n\n")
+                f.write(f"   bgt t{r1}, t{r2}, {label_true}\n")
+                f.write(f"   j {label_else}\n\n")
 
             # =========================
             # IF MENOR (BLT)
@@ -531,12 +503,17 @@ def gerar_assembly(codigo_python):
                     f.write(f"   j {label_end}             # 否则跳转到 {label_end}\n\n")
 
             elif linha == "IF_START":
-                label_true, _ = stack_labels[-1]
-                f.write(f"{label_true}:\n")      
+                label_true, label_else, label_end = stack_labels[-1]
+                f.write(f"{label_true}:\n")
+
+            elif linha == "ELSE_START":
+                label_true, label_else, label_end = stack_labels[-1]
+                f.write(f"   j {label_end}\n")
+                f.write(f"{label_else}:\n")
 
             elif linha == "IF_END":
-                _, label_end = stack_labels.pop()
-                f.write(f"{label_end}:\n\n")          
+                _, _, label_end = stack_labels.pop()
+                f.write(f"{label_end}:\n\n")
 
             else:
                 print("Linha não reconhecida:", linha)

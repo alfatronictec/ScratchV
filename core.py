@@ -146,11 +146,52 @@ def op_control_if(bloco, blocks, variaveis, codigo_python):
 
     codigo_python.append("IF_END")
 
+def op_control_if_else(bloco, blocks, variaveis, codigo_python):
+
+    # Verifica se a condição existe
+    if "CONDITION" not in bloco["inputs"]:
+        return
+
+    cond_id = bloco["inputs"]["CONDITION"][1]
+    _, op, _, nome_a, nome_b = resolver_condicao(cond_id, blocks, variaveis)
+
+    # Gera instrução de comparação
+    codigo_python.append(f"i{op}={nome_a}|{nome_b}")
+    codigo_python.append("IF_START")
+
+    # =========================
+    # BLOCO TRUE (SUBSTACK)
+    # =========================
+    stack_true = bloco["inputs"].get("SUBSTACK", [None, None])[1]
+    while stack_true:
+        b_stack = blocks[stack_true]
+        handler = OPCODE_HANDLERS.get(b_stack["opcode"])
+        if handler:
+            handler(b_stack, blocks, variaveis, codigo_python)
+        stack_true = b_stack["next"]
+
+    # Marca início do ELSE
+    codigo_python.append("ELSE_START")
+
+    # =========================
+    # BLOCO FALSE (SUBSTACK2)
+    # =========================
+    stack_false = bloco["inputs"].get("SUBSTACK2", [None, None])[1]
+    while stack_false:
+        b_stack = blocks[stack_false]
+        handler = OPCODE_HANDLERS.get(b_stack["opcode"])
+        if handler:
+            handler(b_stack, blocks, variaveis, codigo_python)
+        stack_false = b_stack["next"]
+
+    codigo_python.append("IF_END")
+
 
 OPCODE_HANDLERS = {
     "data_setvariableto": op_data_setvariableto,
     "data_showvariable": op_data_showvariable,
-    "control_if": op_control_if
+    "control_if": op_control_if,
+    "control_if_else": op_control_if_else 
 }
 
 def gerar_codigo_python(project):
