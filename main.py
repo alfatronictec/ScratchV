@@ -117,15 +117,22 @@ def carregar_zip():
         
         print(f"Arquivo carregado: {arquivo_zip}")
 
-        print("\ GERADO:\n")
+        print("\nGERADO:\n")
         for linha in codigo_python:
             print(linha)
 
-    except KeyError as e:
-        mostrar_erro(f"Variável não definida: {e}")
+    except KeyError:
+        if idioma == "pt":
+            mostrar_erro("Código tem uma variável não definida")
+        elif idioma == "en":
+            mostrar_erro("The code contains an undefined variable")
+        elif idioma == "cn":
+            mostrar_erro("代码中存在未定义的变量")
 
     except Exception as e:
-        mostrar_erro(f"Erro interno: {e}")
+        # Captura qualquer outro erro e exibe na interface
+        mostrar_erro(str(e))
+        print(f"[ERRO]: {e}")  # Opcional: mantém o log no terminal
 
 # ===============================
 # Frame central
@@ -242,7 +249,6 @@ def gerar_assembly(codigo_python):
             if not linha:
                 continue
 
-
             if linha.startswith("v="):
                 partes = linha.split("=")
                 var = partes[1].strip()
@@ -261,19 +267,33 @@ def gerar_assembly(codigo_python):
                     reg += 1
 
                     if reg > 6:
-                        raise Exception(f"Ultrapassou o Número de Variáveis: {linha}")
+                        if idioma == "pt":
+                            raise Exception(f"Código Ultrapassou o Número de Variáveis Permitido")
+                        elif idioma == "en":
+                            raise Exception(f"Code Exceeded the Maximum Number of Variables")
+                        elif idioma == "cn":
+                            raise Exception(f"代码超过了允许的变量数量")
+                        
 
                 ultimo_reg = reg_var
 
                 # Geração do assembly
                 if valor is not None:
                     if idioma == "pt":
-                        f.write(f"   li t{reg_var}, {valor}                 # Armazena o valor {valor} no registrador t{reg}\n\n")
+                        f.write(
+                            f"   li t{reg_var}, {valor}                 "
+                            f"# Armazena o valor {valor} no registrador t{reg_var}\n\n"
+                        )
                     elif idioma == "en":
-                        f.write(f"   li t{reg_var}, {valor}                 # Store the value {valor} in register t{reg}\n\n")
+                        f.write(
+                            f"   li t{reg_var}, {valor}                 "
+                            f"# Store the value {valor} in register t{reg_var}\n\n"
+                        )
                     elif idioma == "cn":
-                        f.write(f"   li t{reg_var}, {valor}                 # 将值 {valor} 存入寄存器 t{reg}\n\n")
-
+                        f.write(
+                            f"   li t{reg_var}, {valor}                 "
+                            f"# 将值 {valor} 存入寄存器 t{reg_var}\n\n"
+                        )
             # =========================
             # SOMA
             # =========================
@@ -282,8 +302,13 @@ def gerar_assembly(codigo_python):
                 var_dest, op1, op2 = [p.strip() for p in conteudo.split("|")]
 
                 if op1 not in registradores or op2 not in registradores:
-                    raise Exception(f"Variável não definida: {linha}")
-
+                    if idioma == "pt":
+                        raise Exception(f"Código tem uma Variável não definida")
+                    elif idioma == "en":
+                        raise Exception(f"The code contains an undefined variable")
+                    elif idioma == "cn":
+                        raise Exception(f"代码中存在未定义的变量")
+                    
                 r1 = registradores[op1]
                 r2 = registradores[op2]
 
@@ -296,7 +321,13 @@ def gerar_assembly(codigo_python):
                     reg += 1
 
                     if reg > 6:
-                        raise Exception(f"Ultrapassou o Número de Variáveis: {linha}")
+                        if idioma == "pt":
+                            raise Exception(f"Código Ultrapassou o Número de Variáveis Permitido")
+                        elif idioma == "en":
+                            raise Exception(f"Code Exceeded the Maximum Number of Variables")
+                        elif idioma == "cn":
+                            raise Exception(f"代码超过了允许的变量数量")
+                        
                 
                 if idioma == "pt":
                     f.write(f"   add t{reg_dest}, t{r1}, t{r2}              # Soma o valor armazenado em t{r1} com o armazenado em t{r2} e armazena o resultado no registrador t{reg_dest} \n\n")
@@ -318,7 +349,12 @@ def gerar_assembly(codigo_python):
                     partes = conteudo.split("|")
 
                     if len(partes) != 3:
-                        raise Exception(f"Formato inválido para sub: {linha}")
+                        if idioma == "pt":
+                            raise Exception(f"Formato inválido para subtração")
+                        elif idioma == "en":
+                            raise Exception(f"Invalid format for subtraction")
+                        elif idioma == "cn":
+                            raise Exception(f"减法格式无效")
 
                     var_dest = partes[0].strip()
                     op1 = partes[1].strip()
@@ -336,13 +372,30 @@ def gerar_assembly(codigo_python):
                     op2 = op2.strip()
 
                 else:
-                    raise Exception(f"Formato inválido para sub: {linha}")
+                    if idioma == "pt":
+                        raise Exception(f"Formato inválido para subtração")
+                    elif idioma == "en":
+                        raise Exception(f"Invalid format for subtraction")
+                    elif idioma == "cn":
+                            raise Exception(f"减法格式无效")
+
 
                 # Validação das variáveis de origem
                 if op1 not in registradores:
-                    raise Exception(f"Variável não definida: {op1}")
+                    if idioma == "pt":
+                        raise Exception(f"Código tem uma Variável não definida")
+                    elif idioma == "en":
+                        raise Exception(f"The code contains an undefined variable")
+                    elif idioma == "cn":
+                        raise Exception(f"代码中存在未定义的变量")
+                                        
                 if op2 not in registradores:
-                    raise Exception(f"Variável não definida: {op2}")
+                    if idioma == "pt":   
+                        raise Exception(f"Código tem uma Variável não definida")
+                    elif idioma == "en":
+                        raise Exception(f"The code contains an undefined variable")
+                    elif idioma == "cn":
+                        raise Exception(f"代码中存在未定义的变量")
 
                 r1 = registradores[op1]
                 r2 = registradores[op2]
@@ -356,8 +409,13 @@ def gerar_assembly(codigo_python):
                     reg += 1
 
                     if reg > 6:
-                        raise Exception(f"Ultrapassou o Número de Variáveis: {linha}")
-
+                        if idioma == "pt":
+                            raise Exception(f"Código Ultrapassou o Número de Variáveis Permitido")
+                        elif idioma == "en":
+                            raise Exception(f"Code Exceeded the Maximum Number of Variables")
+                        elif idioma == "cn":
+                            raise Exception(f"代码超过了允许的变量数量")
+                        
                 # Geração do assembly
                 if idioma == "pt":
                     f.write(f"   sub t{reg_dest}, t{r1}, t{r2}              # Subtrai o valor armazenado em t{r1} do valor armazenado em t{r2} e armazena no registrador t{reg_dest} \n\n")
@@ -392,128 +450,206 @@ def gerar_assembly(codigo_python):
             # IF IGUAL (BEQ)
             # =========================
             elif linha.startswith("i=="):
-
-                # Remove o prefixo 'i=='
                 conteudo = linha[len("i=="):].strip()
+                var1, var2 = [v.strip() for v in conteudo.split("|")]
 
-                try:
-                    var1, var2 = [v.strip() for v in conteudo.split("|")]
-                except ValueError:
-                    raise Exception(f"Formato inválido para igualdade: {linha}")
-
-                print("DEBUG IF:", var1, var2)
-
-                # Validação
                 if var1 not in registradores:
-                    raise Exception(f"Variável não definida: {var1}")
+                    if idioma == "pt":   
+                        raise Exception(f"Código tem uma Variável não definida")
+                    elif idioma == "en":
+                        raise Exception(f"The code contains an undefined variable")
+                    elif idioma == "cn":
+                        raise Exception(f"代码中存在未定义的变量")
                 if var2 not in registradores:
-                    raise Exception(f"Variável não definida: {var2}")
+                    if idioma == "pt":   
+                        raise Exception(f"Código tem uma Variável não definida")
+                    elif idioma == "en":
+                        raise Exception(f"The code contains an undefined variable")
+                    elif idioma == "cn":
+                        raise Exception(f"代码中存在未定义的变量")
 
                 r1 = registradores[var1]
                 r2 = registradores[var2]
 
-                # Criação de labels
                 if idioma == "pt":
                     label_true = f"SE_IGUAL_{label_id}"
+                    label_else = f"SE_NAO_IGUAL_{label_id}"
                     label_end = f"FIM_SE_{label_id}"
                 else:
                     label_true = f"IF_EQUAL_{label_id}"
+                    label_else = f"IF_NOT_EQUAL_{label_id}"
                     label_end = f"IF_END_{label_id}"
 
-                # Armazena apenas TRUE e END
-                stack_labels.append((label_true, label_end))
+                stack_labels.append({
+                    "true": label_true,
+                    "else": label_else,
+                    "end": label_end,
+                    "has_else": False
+                })
                 label_id += 1
 
-                # Estrutura de um IF sem ELSE
-                f.write(
-                    f"   beq t{r1}, t{r2}, {label_true}      "
-                    f"# Se {var1} == {var2}, pula para {label_true}\n"
-                )
-                f.write(
-                    f"   j {label_end}                       "
-                    f"# Caso contrário, pula para {label_end}\n\n"
-                )
+                if idioma == "pt":
+                    f.write(f"   beq t{r1}, t{r2}, {label_true}             # Compara os valores armazenados, se t{r1} = t{r2} pula para {label_true}, se nao continua \n")
+                    f.write(f"   j {label_end}              # Salta para {label_end} se diferente \n\n")
+                elif idioma == "en":
+                    f.write(f"   beq t{r1}, t{r2}, {label_true}      # Compare the stored values, if t{r1} = t{r2} jump to {label_true}, if not, continue \n\n")
+                    f.write(f"   j {label_end}             # Jump to {label_end} \n\n")
+                elif idioma == "cn":
+                    f.write(f"   beq t{r1}, t{r2}, {label_true}      # 比较存储的值,  如果 t{r1} = t{r2} 则跳转至 {label_true}, 否则继续执行 \n\n")
+                    f.write(f"   j {label_end}             # 跳转至 {label_end} \n\n")
+                        
             # =========================
             # IF MAIOR (BGT)
             # =========================
-            elif linha.startswith("i>"):
-                conteudo = linha.split("=", 1)[1]
-                var1, var2 = conteudo.split("|")
+            elif linha.startswith("i>="):
+                conteudo = linha[len("i>="):].strip()
+                var1, var2 = [v.strip() for v in conteudo.split("|")]
 
-                r1 = registradores[var1.strip()]
-                r2 = registradores[var2.strip()]
+                if var1 not in registradores:
+                    if idioma == "pt":   
+                        raise Exception(f"Código tem uma Variável não definida")
+                    elif idioma == "en":
+                        raise Exception(f"The code contains an undefined variable")
+                    elif idioma == "cn":
+                        raise Exception(f"代码中存在未定义的变量")
+                if var2 not in registradores:
+                    if idioma == "pt":   
+                        raise Exception(f"Código tem uma Variável não definida")
+                    elif idioma == "en":
+                        raise Exception(f"The code contains an undefined variable")
+                    elif idioma == "cn":
+                        raise Exception(f"代码中存在未定义的变量")
 
-                label_true = f"IF_TRUE_{label_id}"
-                label_else = f"IF_FALSE_{label_id}"
-                label_end = f"IF_END_{label_id}"
+                r1 = registradores[var1]
+                r2 = registradores[var2]
 
-                stack_labels.append((label_true, label_else, label_end))
+                if idioma == "pt":
+                    label_true = f"SE_MAIOR_{label_id}"
+                    label_else = f"SE_NAO_MAIOR_{label_id}"
+                    label_end = f"FIM_SE_{label_id}"
+                else:
+                    label_true = f"IF_GREATER_{label_id}"
+                    label_else = f"IF_NOT_GREATER_{label_id}"
+                    label_end = f"IF_END_{label_id}"
+
+                stack_labels.append({
+                    "true": label_true,
+                    "else": label_else,
+                    "end": label_end,
+                    "has_else": False
+                })
                 label_id += 1
 
-                f.write(f"   bgt t{r1}, t{r2}, {label_true}\n")
-                f.write(f"   j {label_else}\n\n")
+                # Se a condição for verdadeira, executa o bloco IF
+                # Caso contrário, salta diretamente para o final
+                if idioma == "pt":
+                    f.write(f"   bgt t{r1}, t{r2}, {label_true}             # Se t{r1} > t{r2}, pula para {label_true}\n")
+                    f.write(f"   j {label_end}              # Senao, pula para {label_end}\n\n")
+                elif idioma == "en":
+                    f.write(f"   bgt t{r1}, t{r2}, {label_true}      # If t{r1} > t{r2}, jump to {label_true}\n\n")
+                    f.write(f"   j {label_end}             # Otherwise jump to {label_end}\n\n")
+                elif idioma == "cn":
+                    f.write(f"   bgt t{r1}, t{r2}, {label_true}      # 如果 t{r1} > t{r2}, 跳转到 {label_true}\n\n")
+                    f.write(f"   j {label_end}             # 否则跳转到 {label_end}\n\n")
 
             # =========================
             # IF MENOR (BLT)
             # =========================
-            elif linha.startswith("i<"):
+            elif linha.startswith("i<="):
+                conteudo = linha[len("i<="):].strip()
+                var1, var2 = [v.strip() for v in conteudo.split("|")]
 
-                conteudo = linha.split("=", 1)[1]
-                var1, var2 = conteudo.split("|")
+                if var1 not in registradores:
+                    if idioma == "pt":   
+                        raise Exception(f"Código tem uma Variável não definida")
+                    elif idioma == "en":
+                        raise Exception(f"The code contains an undefined variable")
+                    elif idioma == "cn":
+                        raise Exception(f"代码中存在未定义的变量")
+                if var2 not in registradores:
+                    if idioma == "pt":   
+                        raise Exception(f"Código tem uma Variável não definida")
+                    elif idioma == "en":
+                        raise Exception(f"The code contains an undefined variable")
+                    elif idioma == "cn":
+                        raise Exception(f"代码中存在未定义的变量")
 
-                if var1.isdigit():
-                    print("i< var1 Erro: IF não aceita valor imediato, use uma variável")
-                    raise Exception("Erro i< : IF não aceita valor imediato, use uma variável")
-                
-                if var2.isdigit():
-                    print("i< var2 Erro: IF não aceita valor imediato, use uma variável")
-                    raise Exception("Erro i< :: IF não aceita valor imediato, use uma variável")
-                
                 r1 = registradores[var1]
                 r2 = registradores[var2]
 
                 if idioma == "pt":
                     label_true = f"SE_MENOR_{label_id}"
-                    label_end = f"SE_NAO_MENOR_{label_id}"
-
-                    stack_labels.append((label_true, label_end))
-                    label_id += 1
-
-                    f.write(f"   blt t{r1}, t{r2}, {label_true}      # Se t{r1} < t{r2}, pula para {label_true}\n\n")
-                    f.write(f"   j {label_end}             # Senao, pula para {label_end}\n\n")
-
-                elif idioma == "en":
+                    label_else = f"SE_NAO_MENOR_{label_id}"
+                    label_end = f"FIM_SE_{label_id}"
+                else:
                     label_true = f"IF_LESS_{label_id}"
-                    label_end = f"IF_NOT_LESS_{label_id}"
+                    label_else = f"IF_NOT_LESS_{label_id}"
+                    label_end = f"IF_END_{label_id}"
 
-                    stack_labels.append((label_true, label_end))
-                    label_id += 1
+                stack_labels.append({
+                    "true": label_true,
+                    "else": label_else,
+                    "end": label_end,
+                    "has_else": False
+                })
+                label_id += 1
 
+                # a <= b  <=>  b >= a
+                if idioma == "pt":
+                    f.write(f"   blt t{r2}, t{r1}, {label_true}\n")
+                    f.write(f"   j {label_end}\n\n")
+                
+                elif idioma == "en":
                     f.write(f"   blt t{r1}, t{r2}, {label_true}      # If t{r1} < t{r2}, jump to {label_true}\n\n")
                     f.write(f"   j {label_end}             # Otherwise jump to {label_end}\n\n")
-
+               
                 elif idioma == "cn":
-                    label_true = f"IF_LESS_{label_id}"
-                    label_end = f"IF_NOT_LESS_{label_id}"
-
-                    stack_labels.append((label_true, label_end))
-                    label_id += 1
-
                     f.write(f"   blt t{r1}, t{r2}, {label_true}      # 如果 t{r1} < t{r2}, 跳转到 {label_true}\n\n")
                     f.write(f"   j {label_end}             # 否则跳转到 {label_end}\n\n")
 
+
             elif linha == "IF_START":
-                label_true, label_else, label_end = stack_labels[-1]
-                f.write(f"{label_true}:\n")
+                if not stack_labels:
+                    if idioma == "pt":
+                        raise Exception("IF_START encontrado sem um IF correspondente.")
+                    elif idioma == "en":
+                        raise Exception("IF_START found without a corresponding IF.")
+                    elif idioma == "cn":
+                        raise Exception("发现 IF_START，但未找到对应的 IF。")
+
+                labels = stack_labels[-1]
+                f.write(f"{labels['true']}:\n")
 
             elif linha == "ELSE_START":
-                label_true, label_else, label_end = stack_labels[-1]
-                f.write(f"   j {label_end}\n")
-                f.write(f"{label_else}:\n")
+                # O compilador RISC-V suporta apenas a estrutura IF...THEN.
+                # Portanto, a presença de um bloco ELSE é considerada um erro.
+                if idioma == "pt":
+                    raise Exception(
+                        "Bloco 'senão' não é suportado na geração de assembly RISC-V. "
+                        "Utilize apenas a estrutura 'se ... então'."
+                    )
+                elif idioma == "en":
+                    raise Exception(
+                        "The 'else' block is not supported in RISC-V assembly generation. "
+                        "Please use only the 'if ... then' structure."
+                    )
+                elif idioma == "cn":
+                    raise Exception(
+                        "RISC-V 汇编生成不支持 'else' 块。"
+                        "请仅使用 'if ... then' 结构。"
+                    )
 
             elif linha == "IF_END":
-                _, _, label_end = stack_labels.pop()
-                f.write(f"{label_end}:\n\n")
+                if not stack_labels:
+                    if idioma == "pt":
+                        raise Exception("IF_END encontrado sem um IF correspondente.")
+                    elif idioma == "en":
+                        raise Exception("IF_END found without a corresponding IF.")
+                    elif idioma == "cn":
+                        raise Exception("发现没有对应 IF 的 IF_END。")
+
+                labels = stack_labels.pop()
+                f.write(f"{labels['end']}:\n\n")
 
             else:
                 print("Linha não reconhecida:", linha)
