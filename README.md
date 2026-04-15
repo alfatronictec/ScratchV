@@ -24,4 +24,32 @@ basic functioning of the RISC-V architecture
 
 The tool’s purpose is to support introductory Assembly instruction using a high-level visual language, such as Scratch. 
 
-Translated with DeepL.com (free version)
+## Features 
+
+ScratchV currently allows: 
+
+- Loading of .sb3 files generated in Scratch  
+
+- Automatic conversion to RISC-V assembly code (.asm)  
+
+- Support for basic arithmetic operations:  
+
+  - addition  
+
+  - subtraction  
+
+- Support for conditional structures:  
+
+  - if equal  
+
+  - if greater than  
+
+  - if less than  
+
+- Generation of code compatible with RISC-V simulators, such as:  
+
+  - RARS  
+
+  - RIPES 
+
+  - Among others 
