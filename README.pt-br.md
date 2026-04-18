@@ -71,38 +71,38 @@ Passo 1 — Criar o programa no Scratch.
 
   ![When Clicked](images/images%20readme/when_clicked.png)
 
-- End the code with the following block:
+- Finalize o código com o seguinte bloco: Pare Todos
 
   ![When Clicked](images/images%20readme/stop%20all.png)
 
-- In your Scratch code, use only the following operations:
+- No seu código no Scratch, utilize apenas as seguintes operações:
   
-  - Addition and subtraction:
+  - Adição e Subtração:
 
     ![When Clicked](images/images%20readme/operations.png)
 
-  - Conditional operators: if equal, if greater than, and if equal:
+  - Operadores Condicionais: se igual, se maior e se menor:
 
     ![When Clicked](images/images%20readme/conditions.png)
 
-Here is an example of the code:
+Segue abaixo um exemplo de codigo:
 
 ![When Clicked](images/images%20readme/image%20example.png)
 
 <br><br>
-Step 2 — Export the .sb3 file.
+Passo 2 — Baixar o arquivo .sb3.
 <br><br>
 
-After creating the program in Scratch: 
+Após criar o programa no Scratch:
 
-1- Click File <br>
-2- Click Save to your computer <br>
-3- Scratch will generate an .sb3 file <br>
-4- Check where the file was saved on your computer <br>
+1- Clique em Arquivo <br>
+2- Clique em Baixar para seu computador <br>
+3- O Scratch irá gerar um arquivo .sb3 <br>
+4- Verifique onde o arquivo foi salvo no seu computador <br>
 
 <br><br>
-Step 3 — Load the .sb3 file into ScratchV.
+Step 3 — Carregar o arquivo .sb3 no ScratchV.
 <br><br>
 
-1- Run ScratchV and load the .sb3 file <br>
-2- After loading the file, ScratchV will generate the .asm file on your computer <br>
+1- Abra o ScratchV e carregue o arquivo .sb3 <br>
+2- Após carregar o arquivo, o ScratchV irá gerar o arquivo .asm no seu computador <br>
