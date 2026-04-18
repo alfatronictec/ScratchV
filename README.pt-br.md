@@ -47,7 +47,7 @@ O ScratchV atualmente permite:
 
   - se maior que 
 
-  - if menor que 
+  - se menor que 
 
 - Geração de código compatível com simuladores RISC-V, como:  
 
@@ -59,15 +59,15 @@ O ScratchV atualmente permite:
  
 ## Como usar
 
-ScratchV converts programs created in Scratch (.sb3) into RISC-V assembly code (.asm). 
+O ScratchV converte programas criados no Scratch (.sb3) em código assembly RISC-V (.asm).
 
-Follow the steps below to use the tool. 
+Siga os passos abaixo para utilizar a ferramenta.
 
 <br><br>
-Step 1 — Create the program in Scratch.
+Passo 1 — Criar o programa no Scratch.
 <br><br>
 
--  Start the code with the following block:
+-  Inicie o código com o seguinte bloco: Quando For Clicado
 
   ![When Clicked](images/images%20readme/when_clicked.png)
 
