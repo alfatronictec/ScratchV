@@ -100,3 +100,6 @@ After creating the program in Scratch:
 <br><br>
 Step 3 — Load the .sb3 file into ScratchV.
 <br><br>
+
+1- Run ScratchV and load the .sb3 file <br>
+2- After loading the file, ScratchV will generate the .asm file on your computer <br>
