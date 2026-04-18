@@ -73,6 +73,10 @@ Follow the steps below to use the tool.
   - Addition and subtraction:
 
     ![When Clicked](images/images%20readme/operations.png)
+
+  - Conditional operators: if equal, if greater than, and if equal:
+
+    ![When Clicked](images/images%20readme/conditions.png)
     
 
 
