@@ -65,11 +65,11 @@ Sigue los pasos que se indican a continuación para utilizar la herramienta.
 Paso 1 — Crea el programa en Scratch.
 <br><br>
 
--  Comience el código con el siguiente bloque: Cuando se haga clic
+-  Comience el código con el siguiente bloque: Al hacer clic en
 
   ![When Clicked](images/images%20readme/when_clicked.png)
 
-- Finalice el código con el siguiente bloque: Detener todo
+- Finalice el código con el siguiente bloque: Detener todos
 
   ![When Clicked](images/images%20readme/stop%20all.png)
 
