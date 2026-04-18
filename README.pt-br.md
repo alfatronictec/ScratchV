@@ -1,6 +1,6 @@
 # ScratchV
 
-Idiomas
+## Idiomas
 
 - 🇺🇸 [English](README.md)
 - 🇧🇷 [Português (Brasil)](README.pt-br.md)
