@@ -94,7 +94,7 @@ Paso 2 — Descargar el archivo .sb3.
 Después de crear el programa en Scratch:
 
 1- Haz clic en Archivo <br>
-2- Haz clic en Descargar a tu ordenador <br>
+2- Haz clic en Guardar en tu ordenador <br>
 3- Scratch generará un archivo .sb3 <br>
 4- Comprueba dónde se ha guardado el archivo en tu ordenador <br>
 
