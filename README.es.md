@@ -1,10 +1,10 @@
 # ScratchV
 
-Idiomas
+## Idiomas
 
-- 🇺🇸 English → [README](README.md)
-- 🇧🇷 Português (Brasil) → [README.pt-br.md](README.pt-br.md)
-- 🇪🇸 Español → [README.es.md](README.es.md)
+- 🇺🇸 [English](README.md)
+- 🇧🇷 [Português (Brasil)](README.pt-br.md)
+- 🇪🇸 [Español](README.es.md)
   
 ScratchV es una herramienta educativa que traduce programas desarrollados en Scratch a ensamblador RISC-V, lo que permite a los estudiantes comprender la relación entre la programación basada en bloques y la programación de bajo nivel.
 
