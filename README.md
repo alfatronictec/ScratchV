@@ -86,5 +86,17 @@ Here is an example of the code:
 
 ![When Clicked](images/images%20readme/image%20example.png)
 
+<br><br>
+Step 2 — Export the .sb3 file.
+<br><br>
 
+After creating the program in Scratch: 
 
+1- Click File
+2- Click Save to your computer
+3- Scratch will generate an .sb3 file
+4- Check where the file was saved on your computer
+
+<br><br>
+Step 3 — Load the .sb3 file into ScratchV.
+<br><br>
