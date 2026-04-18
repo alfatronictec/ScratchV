@@ -81,7 +81,10 @@ Step 1 — Create the program in Scratch.
   - Conditional operators: if equal, if greater than, and if equal:
 
     ![When Clicked](images/images%20readme/conditions.png)
-    
+
+Here is an example of the code:
+
+![When Clicked](images/images%20readme/image%20example.png)
 
 
 
