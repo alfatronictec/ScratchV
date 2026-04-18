@@ -66,7 +66,7 @@ Follow the steps below to use the tool.
 
 - End the code with the following block:
 
-  ![When Clicked](images/images%20readme/stop all.png)
+  ![When Clicked](images/images%20readme/stop%20all.png)
 
 
 
