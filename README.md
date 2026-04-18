@@ -92,10 +92,10 @@ Step 2 — Export the .sb3 file.
 
 After creating the program in Scratch: 
 
-1- Click File
-2- Click Save to your computer
-3- Scratch will generate an .sb3 file
-4- Check where the file was saved on your computer
+1- Click File <br>
+2- Click Save to your computer <br>
+3- Scratch will generate an .sb3 file <br>
+4- Check where the file was saved on your computer <br>
 
 <br><br>
 Step 3 — Load the .sb3 file into ScratchV.
