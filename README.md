@@ -68,5 +68,12 @@ Follow the steps below to use the tool.
 
   ![When Clicked](images/images%20readme/stop%20all.png)
 
+- In your Scratch code, use only the following operations:
+  
+  - Addition and subtraction:
+
+    ![When Clicked](images/images%20readme/operations.png)
+    
+
 
 
