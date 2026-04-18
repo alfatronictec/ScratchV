@@ -60,7 +60,9 @@ ScratchV converts programs created in Scratch (.sb3) into RISC-V assembly code (
 
 Follow the steps below to use the tool. 
 
+
 Step 1 — Create the program in Scratch.
+
 
 -  Start the code with the following block:
 
