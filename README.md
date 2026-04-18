@@ -52,4 +52,10 @@ ScratchV currently allows:
 
   - RIPES 
 
-  - Among others 
+  - Among others
+ 
+## How to Use 
+
+ScratchV converts programs created in Scratch (.sb3) into RISC-V assembly code (.asm). 
+
+Follow the steps below to use the tool. 
