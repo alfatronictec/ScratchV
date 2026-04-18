@@ -62,5 +62,11 @@ Follow the steps below to use the tool.
 
 -  Start the code with the following block:
 
-![When Clicked](images/images%20readme/when_clicked.png)
+  ![When Clicked](images/images%20readme/when_clicked.png)
+
+- End the code with the following block:
+
+  ![When Clicked](images/images%20readme/stop all.png)
+
+
 
