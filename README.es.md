@@ -55,52 +55,52 @@ Actualmente, ScratchV permite:
 
   - Entre otros
  
-## Como usar
+## Cómo utilizarlo
 
-O ScratchV converte programas criados no Scratch (.sb3) em código assembly RISC-V (.asm).
+ScratchV convierte los programas creados en Scratch (.sb3) en código ensamblador RISC-V (.asm).
 
-Siga os passos abaixo para utilizar a ferramenta.
+Sigue los pasos que se indican a continuación para utilizar la herramienta.
 
 <br><br>
-Passo 1 — Criar o programa no Scratch.
+Paso 1 — Crea el programa en Scratch.
 <br><br>
 
--  Inicie o código com o seguinte bloco: Quando For Clicado
+-  Comience el código con el siguiente bloque: Cuando se haga clic
 
   ![When Clicked](images/images%20readme/when_clicked.png)
 
-- Finalize o código com o seguinte bloco: Pare Todos
+- Finalice el código con el siguiente bloque: Detener todo
 
   ![When Clicked](images/images%20readme/stop%20all.png)
 
-- No seu código no Scratch, utilize apenas as seguintes operações:
+- En tu código de Scratch, utiliza únicamente las siguientes operaciones:
   
-  - Adição e Subtração:
+  - Suma y resta:
 
     ![When Clicked](images/images%20readme/operations.png)
 
-  - Operadores Condicionais: se igual, se maior e se menor:
+  - Operadores condicionales: si es igual, si es mayor y si es menor:
 
     ![When Clicked](images/images%20readme/conditions.png)
 
-Segue abaixo um exemplo de codigo:
+A continuación se muestra un ejemplo de código:
 
 ![When Clicked](images/images%20readme/image%20example.png)
 
 <br><br>
-Passo 2 — Baixar o arquivo .sb3.
+Paso 2 — Descargar el archivo .sb3.
 <br><br>
 
-Após criar o programa no Scratch:
+Después de crear el programa en Scratch:
 
-1- Clique em Arquivo <br>
-2- Clique em Baixar para seu computador <br>
-3- O Scratch irá gerar um arquivo .sb3 <br>
-4- Verifique onde o arquivo foi salvo no seu computador <br>
+1- Haz clic en Archivo <br>
+2- Haz clic en Descargar a tu ordenador <br>
+3- Scratch generará un archivo .sb3 <br>
+4- Comprueba dónde se ha guardado el archivo en tu ordenador <br>
 
 <br><br>
-Step 3 — Carregar o arquivo .sb3 no ScratchV.
+Paso 3 — Cargar el archivo .sb3 en ScratchV.
 <br><br>
 
-1- Abra o ScratchV e carregue o arquivo .sb3 <br>
-2- Após carregar o arquivo, o ScratchV irá gerar o arquivo .asm no seu computador <br>
+1- Abre ScratchV y carga el archivo .sb3 <br>
+2- Tras cargar el archivo, ScratchV generará el archivo .asm en tu ordenador <br>
