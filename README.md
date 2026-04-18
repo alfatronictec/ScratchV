@@ -59,9 +59,11 @@ ScratchV currently allows:
 ScratchV converts programs created in Scratch (.sb3) into RISC-V assembly code (.asm). 
 
 Follow the steps below to use the tool. 
-<br>
+
+<br><br>
 Step 1 — Create the program in Scratch.
-<br>
+<br><br>
+
 -  Start the code with the following block:
 
   ![When Clicked](images/images%20readme/when_clicked.png)
