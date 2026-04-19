@@ -74,7 +74,7 @@ ScratchV converts programs created in Scratch (.sb3) into RISC-V assembly code (
 
 Follow the steps below to use the tool. 
 
-### Step 1 — Create the program in Scratch.
+### Step 1 — Create the program in Scratch
 
 -  Start the code with the following block:
 
@@ -98,7 +98,7 @@ Here is an example of the code:
 
 ![When Clicked](images/images%20readme/image%20example.png)
 
-### Step 2 — Export the .sb3 file.
+### Step 2 — Export the .sb3 file
 
 After creating the program in Scratch: 
 
@@ -107,7 +107,7 @@ After creating the program in Scratch:
 3- Scratch will generate an .sb3 file <br>
 4- Check where the file was saved on your computer <br>
 
-### Step 3 — Load the .sb3 file into ScratchV.
+### Step 3 — Load the .sb3 file into ScratchV
 
 1- Run ScratchV, Select your language from the flags in the upper-right corner.
 2- Load the .sb3 file <br>
