@@ -102,13 +102,13 @@ Here is an example of the code:
 
 After creating the program in Scratch: 
 
-1- Click File 
-2- Click Save to your computer 
-3- Scratch will generate an .sb3 file 
-4- Check where the file was saved on your computer
+1- Click File <br>
+2- Click Save to your computer  <br>
+3- Scratch will generate an .sb3 file  <br> 
+4- Check where the file was saved on your computer  <br>
 
 ### Step 3 — Load the .sb3 file into ScratchV
 
-1- Run ScratchV, Select your language from the flags in the upper-right corner
-2- Load the .sb3 file
-2- After loading the file, ScratchV will generate the .asm file on your computer 
+1- Run ScratchV, Select your language from the flags in the upper-right corner  <br>
+2- Load the .sb3 file  <br>
+2- After loading the file, ScratchV will generate the .asm file on your computer  <br>  
