@@ -7,6 +7,7 @@ from PIL import Image, ImageTk, ImageEnhance
 from core import load_sb3, gerar_codigo_python
 import subprocess
 
+
 idioma = "pt"
 codigo_python = 0
 
@@ -304,9 +305,8 @@ def gerar_assembly(codigo_python):
                         elif idioma == "es":
                             raise Exception(f"El código ha superado el número máximo de variables permitido")
                         
-
                 ultimo_reg = reg_var
-
+                
                 # Geração do assembly
                 if valor is not None:
                     if idioma == "pt":
