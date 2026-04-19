@@ -4,6 +4,10 @@
 
 [⬇️ Download ScratchV (.exe)](https://github.com/alfatronictec/ScratchV/releases/download/v1.0/ScratchV.exe)
 
+## Requirements
+
+- Windows 10/11
+  
 ## Languages
 
 - 🇺🇸 [English](README.md)
@@ -114,9 +118,3 @@ Step 3 — Load the .sb3 file into ScratchV.
 1- Run ScratchV, Select your language from the flags in the upper-right corner.
 2- Load the .sb3 file <br>
 2- After loading the file, ScratchV will generate the .asm file on your computer <br>
-
-<br>
-
-## Requirements
-
-- Windows 10/11
