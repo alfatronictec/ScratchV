@@ -98,9 +98,7 @@ Here is an example of the code:
 
 ![When Clicked](images/images%20readme/image%20example.png)
 
-<br>
-Step 2 — Export the .sb3 file.
-<br>
+### Step 2 — Export the .sb3 file.
 
 After creating the program in Scratch: 
 
@@ -109,9 +107,7 @@ After creating the program in Scratch:
 3- Scratch will generate an .sb3 file <br>
 4- Check where the file was saved on your computer <br>
 
-<br>
-Step 3 — Load the .sb3 file into ScratchV.
-<br>
+### Step 3 — Load the .sb3 file into ScratchV.
 
 1- Run ScratchV, Select your language from the flags in the upper-right corner.
 2- Load the .sb3 file <br>
