@@ -109,3 +109,9 @@ Após criar o programa no Scratch:
 1- Execute o ScratchV e selecione seu idioma entre as bandeiras no canto superior direito  <br>
 2- Carregue o arquivo .sb3  <br>
 3- Após carregar o arquivo, o ScratchV irá gerar o arquivo .asm no seu computador  <br>  
+
+## Autor
+
+**Eduardo Pereira**  
+Estudande de Mestrado em Computação
+**UFRGS-BR**
