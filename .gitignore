@@ -1,0 +1,14 @@
+# build
+dist/
+build/
+
+# pyinstaller
+*.spec
+
+# python
+__pycache__/
+*.pyc
+
+# sistema
+.DS_Store
+Thumbs.db
