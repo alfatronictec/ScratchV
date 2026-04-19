@@ -111,4 +111,4 @@ After creating the program in Scratch:
 
 1- Run ScratchV, Select your language from the flags in the upper-right corner  <br>
 2- Load the .sb3 file  <br>
-2- After loading the file, ScratchV will generate the .asm file on your computer  <br>  
+3- After loading the file, ScratchV will generate the .asm file on your computer  <br>  
