@@ -1,8 +1,3 @@
-# FAZ OPERAÇÕES BÁSICAS DA ISA RISC-V RV32I
-# No momento = Soma e Subtração
-# No momento = BEQ   if a == b | beq rs1, rs2, label | Se rs1 == rs2, pula para o endereço indicado por label.
-# Na sequência fará BLT   if a < b  | blt rs1, rs2, label | Se rs1 < rs2, o programa salta para label.
-# Na sequência fará BGT   if a > b  | bgt rs1, rs2, label | Se rs1 > rs2, salta para label
 import os
 import sys
 import time
@@ -10,6 +5,7 @@ import customtkinter as ctk
 from tkinter import filedialog
 from PIL import Image, ImageTk, ImageEnhance
 from core import load_sb3, gerar_codigo_python
+import subprocess
 
 idioma = "pt"
 codigo_python = 0
@@ -108,12 +104,12 @@ def carregar_zip():
         project = load_sb3(arquivo_zip)
         codigo_python = gerar_codigo_python(project)
 
-        gerar_assembly(codigo_python)
-
         for i in range(101):
             barra_progresso.set(i/100)
             janela.update()
             time.sleep(0.01)
+        
+        gerar_assembly(codigo_python)
         
         print(f"Arquivo carregado: {arquivo_zip}")
 
@@ -226,6 +222,36 @@ botao_es.pack(side="left", padx=5, pady=5)
 # estado inicial
 atualizar_botoes_idioma()
 
+def get_base_path():
+    caminhos = [
+        "C:\\ScratchV",
+        os.path.join(os.getenv("LOCALAPPDATA", ""), "ScratchV"),
+        os.path.join(os.path.expanduser("~"), "ScratchV")
+    ]
+
+    for caminho in caminhos:
+        try:
+            if caminho:
+                os.makedirs(caminho, exist_ok=True)
+                return caminho
+        except PermissionError:
+            continue
+
+    if idioma == "pt":
+        raise Exception("Não foi possível criar diretório em nenhum local.")
+    elif idioma == "es":
+        raise Exception("No se ha podido crear el directorio en ninguna ubicación.")
+    elif idioma == "es":
+        raise Exception("The directory could not be created in any location.")
+    
+def get_nome_arquivo():
+    nomes = {
+        "pt": "codigo_gerado.asm",
+        "en": "generated_code.asm",
+        "es": "codigo_generado.asm"
+    }
+    return nomes.get(idioma, "codigo_gerado.asm")
+
 def gerar_assembly(codigo_python):
 
     reg = 0
@@ -234,9 +260,13 @@ def gerar_assembly(codigo_python):
     label_id = 0
     stack_labels = []
 
+    pasta_scratchv = get_base_path()
+    os.makedirs(pasta_scratchv, exist_ok=True)
 
-    with open("codigo_gerado.asm", "w", encoding="utf-8") as f:
+    nome_arquivo = get_nome_arquivo()
+    caminho_arquivo = os.path.join(pasta_scratchv, nome_arquivo)
 
+    with open(caminho_arquivo, "w", encoding="utf-8") as f:
 
         f.write(".text\n\n")
 
@@ -377,7 +407,7 @@ def gerar_assembly(codigo_python):
                     elif idioma == "en":
                         raise Exception(f"Invalid format for subtraction")
                     elif idioma == "es":
-                            raise Exception(f"Formato no válido para la resta")
+                        raise Exception(f"Formato no válido para la resta")
 
 
                 # Validação das variáveis de origem
@@ -653,7 +683,17 @@ def gerar_assembly(codigo_python):
 
             else:
                 print("Linha não reconhecida:", linha)
-
+    
+    try:
+        subprocess.Popen(f'explorer "{pasta_scratchv}"')
+    except Exception as e:
+        if idioma == "pt":
+            raise Exception(f"Erro ao abrir pasta: {e}")
+        elif idioma == "en":
+            raise Exception(f"Error al abrir la carpeta: {e}")
+        elif idioma == "es":
+            raise Exception(f"Error opening folder: {e}")
+        
 # ===============================
 # Executa
 # ===============================
