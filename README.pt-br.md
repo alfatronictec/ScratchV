@@ -1,5 +1,13 @@
 # ScratchV
 
+## Baixar
+
+[⬇️ Baixar ScratchV (.exe)](https://github.com/alfatronictec/ScratchV/releases/download/v1.0/ScratchV.exe)
+
+## Requisitos
+
+- Windows 10/11
+
 ## Idiomas
 
 - 🇺🇸 [English](README.md)
