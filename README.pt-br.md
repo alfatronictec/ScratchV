@@ -1,14 +1,14 @@
 # ScratchV
 
-## Baixar
+## Baixar:
 
 [⬇️ Baixar ScratchV (.exe)](https://github.com/alfatronictec/ScratchV/releases/download/v1.0/ScratchV.exe)
 
-## Requisitos
+## Requisitos:
 
 - Windows 10/11
 
-## Idiomas
+## Idiomas:
 
 - 🇺🇸 [English](README.md)
 - 🇧🇷 [Português (Brasil)](README.pt-br.md)
@@ -20,7 +20,7 @@ O objetivo do projeto é facilitar o ensino de arquitetura de computadores, orga
 
 ![Tela Inicial](images/images%20readme/interface.png)
 
-## Motivação
+## Motivação:
 
 Ambientes como o Scratch são amplamente utilizados no ensino introdutório de programação. No entanto, existe uma lacuna significativa entre a programação baseada em blocos e o funcionamento interno de linguagens de baixo nível, como Assembly.
 
@@ -35,7 +35,7 @@ Como resultado, o ScratchV auxilia no aprendizado de conceitos como:
 
 O objetivo da ferramenta é apoiar o ensino introdutório de Assembly utilizando uma linguagem visual de alto nível, como o Scratch.
 
-## Funcionalidades
+## Funcionalidades:
 
 O ScratchV atualmente permite:
 
@@ -65,13 +65,13 @@ O ScratchV atualmente permite:
 
   - Entre outros
  
-## Como usar
+## Como usar:
 
 O ScratchV converte programas criados no Scratch (.sb3) em código assembly RISC-V (.asm).
 
 Siga os passos abaixo para utilizar a ferramenta.
 
-### Passo 1 — Criar o programa no Scratch.
+### Passo 1 — Criar o programa no Scratch:
 
 -  Inicie o código com o seguinte bloco: Quando For Clicado
 
@@ -95,7 +95,7 @@ Segue abaixo um exemplo de codigo:
 
 ![When Clicked](images/images%20readme/image%20example.png)
 
-### Passo 2 — Baixar o arquivo .sb3.
+### Passo 2 — Baixar o arquivo .sb3:
 
 Após criar o programa no Scratch:
 
@@ -104,7 +104,7 @@ Após criar o programa no Scratch:
 3- O Scratch irá gerar um arquivo .sb3 <br>
 4- Verifique onde o arquivo foi salvo no seu computador <br>
 
-### Passo 3 — Carregar o arquivo .sb3 no ScratchV.
+### Passo 3 — Carregar o arquivo .sb3 no ScratchV:
 
 1- Abra o ScratchV e selecione seu idioma na bandeira no canto superior direito.
 2- Carregue o arquivo .sb3 <br>
