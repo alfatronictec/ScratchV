@@ -1,14 +1,14 @@
 # ScratchV
 
-## Descargar
+## Descargar:
 
 [⬇️ Descargar ScratchV (.exe)](https://github.com/alfatronictec/ScratchV/releases/download/v1.0/ScratchV.exe)
 
-## Requisitos
+## Requisitos:
 
 - Windows 10/11
 
-## Idiomas
+## Idiomas:
 
 - 🇺🇸 [English](README.md)
 - 🇧🇷 [Português (Brasil)](README.pt-br.md)
@@ -20,7 +20,7 @@ El objetivo del proyecto es facilitar la enseñanza de la arquitectura de ordena
 
 ![Tela Inicial](images/images%20readme/interface.png)
 
-## Motivación
+## Motivación:
 
 Entornos como Scratch se utilizan ampliamente en la enseñanza introductoria de la programación. Sin embargo, existe una brecha significativa entre la programación basada en bloques y el funcionamiento interno de los lenguajes de bajo nivel, como el ensamblador.
 
@@ -33,7 +33,7 @@ Como resultado, ScratchV ayuda a aprender conceptos como:
 - Estructuras condicionales
 - Funcionamiento básico de la arquitectura RISC-V
 
-## Funcionalidades
+## Funcionalidades:
 
 Actualmente, ScratchV permite:
 
@@ -63,15 +63,13 @@ Actualmente, ScratchV permite:
 
   - Entre otros
  
-## Cómo utilizarlo
+## Cómo utilizarlo:
 
 ScratchV convierte los programas creados en Scratch (.sb3) en código ensamblador RISC-V (.asm).
 
 Sigue los pasos que se indican a continuación para utilizar la herramienta.
 
-<br><br>
-Paso 1 — Crea el programa en Scratch.
-<br><br>
+### Paso 1 — Crea el programa en Scratch.
 
 -  Comience el código con el siguiente bloque: Al hacer clic en
 
@@ -95,9 +93,7 @@ A continuación se muestra un ejemplo de código:
 
 ![When Clicked](images/images%20readme/image%20example.png)
 
-<br><br>
-Paso 2 — Descargar el archivo .sb3.
-<br><br>
+### Paso 2 — Descargar el archivo .sb3.
 
 Después de crear el programa en Scratch:
 
@@ -106,9 +102,7 @@ Después de crear el programa en Scratch:
 3- Scratch generará un archivo .sb3 <br>
 4- Comprueba dónde se ha guardado el archivo en tu ordenador <br>
 
-<br><br>
-Paso 3 — Cargar el archivo .sb3 en ScratchV.
-<br><br>
+### Paso 3 — Cargar el archivo .sb3 en ScratchV.
 
 1- Abre ScratchV y selecciona tu idioma en las banderas de la esquina superior derecha
 2- Carga el archivo .sb3 <br>
