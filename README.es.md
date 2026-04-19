@@ -69,7 +69,7 @@ ScratchV convierte los programas creados en Scratch (.sb3) en código ensamblado
 
 Sigue los pasos que se indican a continuación para utilizar la herramienta.
 
-### Paso 1 — Crea el programa en Scratch.
+### Paso 1 — Crea el programa en Scratch:
 
 -  Comience el código con el siguiente bloque: Al hacer clic en
 
@@ -93,7 +93,7 @@ A continuación se muestra un ejemplo de código:
 
 ![When Clicked](images/images%20readme/image%20example.png)
 
-### Paso 2 — Descargar el archivo .sb3.
+### Paso 2 — Descargar el archivo .sb3:
 
 Después de crear el programa en Scratch:
 
@@ -102,7 +102,7 @@ Después de crear el programa en Scratch:
 3- Scratch generará un archivo .sb3 <br>
 4- Comprueba dónde se ha guardado el archivo en tu ordenador <br>
 
-### Paso 3 — Cargar el archivo .sb3 en ScratchV.
+### Paso 3 — Cargar el archivo .sb3 en ScratchV:
 
 1- Abre ScratchV y selecciona tu idioma en las banderas de la esquina superior derecha
 2- Carga el archivo .sb3 <br>
