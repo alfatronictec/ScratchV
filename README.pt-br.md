@@ -113,5 +113,5 @@ Após criar o programa no Scratch:
 ## Autor
 
 **Eduardo Pereira**  
-Estudande de Mestrado em Computação
+Estudande de Mestrado em Computação  <br>
 **UFRGS-BR**
