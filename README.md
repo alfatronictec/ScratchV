@@ -116,5 +116,5 @@ After creating the program in Scratch:
 ## Author
 
 **Eduardo Pereira**  
-Undergraduate Student in Computer Science  
+Master's student in Computer Science <br> 
 **UFRGS-BR**
