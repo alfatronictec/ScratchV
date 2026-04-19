@@ -8,7 +8,7 @@
 
 ## Download
 
-[⬇️ Dowload ScratchV (.exe)](https://github.com/alfatronictec/ScratchV/releases/download/v1.0/ScratchV.exe)
+[⬇️ Download ScratchV (.exe)](https://github.com/alfatronictec/ScratchV/releases/download/v1.0/ScratchV.exe)
 
 ScratchV is an educational tool that translates programs developed in Scratch into RISC-V assembly, allowing students to understand the relationship between block-based programming and low-level programming.
 
@@ -62,7 +62,7 @@ ScratchV currently allows:
 
   - RIPES 
 
-  - Among others
+  - Other RISC-V simulators
  
 ## How to Use 
 
@@ -88,7 +88,7 @@ Step 1 — Create the program in Scratch.
 
     ![When Clicked](images/images%20readme/operations.png)
 
-  - Conditional operators: if equal, if greater than, and if equal:
+  - Conditional operators: if equal, if greater than, and if less than:
 
     ![When Clicked](images/images%20readme/conditions.png)
 
@@ -114,3 +114,7 @@ Step 3 — Load the .sb3 file into ScratchV.
 1- Run ScratchV, Select your language from the flags in the upper-right corner.
 2- Load the .sb3 file <br>
 2- After loading the file, ScratchV will generate the .asm file on your computer <br>
+
+## Requirements
+
+- Windows 10/11
