@@ -117,4 +117,4 @@ After creating the program in Scratch:
 
 **Eduardo Pereira**  
 Undergraduate Student in Computer Science  
-**UFRGS-BRxc**
+**UFRGS-BR**
