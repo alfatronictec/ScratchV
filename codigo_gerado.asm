@@ -1,21 +1,20 @@
 .text
 
-   li t0, 2                 # Store the value 2 in register t0
+   li t0, 5                 # Almacena el valor 5 en el registro t0
 
-   li t1, 5                 # Store the value 5 in register t1
+   li t1, 5                 # Almacena el valor 5 en el registro t1
 
-   li t2, 6                 # Store the value 6 in register t2
+   li t2, 0                 # Almacena el valor 0 en el registro t2
 
-   li t3, 0                 # Store the value 0 in register t3
+   beq t0, t1, IF_EQUAL_0      # Compara los valores almacenados; si t0 = t1, salta a IF_EQUAL_0; si no, continúa 
+   j IF_END_0             # Saltar a IF_END_0 si es diferente 
 
-   li t4, 0                 # Store the value 0 in register t4
+IF_EQUAL_0:
+   li t2, 5                 # Almacena el valor 5 en el registro t2
 
-   add t5, t0, t1              # Soma o valor armazenado em t0 com o armazenado em t1 e armazena o resultado no registrador t5 
+IF_END_0:
 
-   bgt t5, t2, IF_GREATER_0      # If t5 > t2, jump to IF_GREATER_0
-
-   j IF_END_0             # Otherwise jump to IF_END_0
-
-IF_GREATER_0:
-   li t3, 7                 # Store the value 7 in register t3
+   li a7, 1             # Carga el valor 1 en el registro a7, que define el código de la llamada al sistema (syscall), 1 = imprimir entero (print integer) 
+   add a0, t2, zero    # Copia el valor del registro t2 a a0; a0 es el registro que se utiliza para pasar el argumento de la llamada al sistema, el entero que se imprimirá  
+   ecall                # Ejecuta una llamada al sistema (environment call)
 

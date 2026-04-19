@@ -64,7 +64,7 @@ def atualizar_botoes_idioma():
     textos = {
         "pt": "Carregar .sb3",
         "en": "Load .sb3",
-        "cn": "加载 .sb3"
+        "es": "Cargar .sb3"
     }
 
     botao_zip.configure(text=textos.get(idioma))
@@ -72,17 +72,17 @@ def atualizar_botoes_idioma():
     if idioma == "pt":
         botao_br.configure(image=img_br_color)
         botao_en.configure(image=img_en_gray)
-        botao_cn.configure(image=img_cn_gray)
+        botao_es.configure(image=img_es_gray)
 
     elif idioma == "en":
         botao_br.configure(image=img_br_gray)
         botao_en.configure(image=img_en_color)
-        botao_cn.configure(image=img_cn_gray)
+        botao_es.configure(image=img_es_gray)
 
-    elif idioma == "cn":
+    elif idioma == "es":
         botao_br.configure(image=img_br_gray)
         botao_en.configure(image=img_en_gray)
-        botao_cn.configure(image=img_cn_color)
+        botao_es.configure(image=img_es_color)
 
 # ===============================
 # Funções dos botões
@@ -126,8 +126,8 @@ def carregar_zip():
             mostrar_erro("Código tem uma variável não definida")
         elif idioma == "en":
             mostrar_erro("The code contains an undefined variable")
-        elif idioma == "cn":
-            mostrar_erro("代码中存在未定义的变量")
+        elif idioma == "es":
+            mostrar_erro("El código contiene una variable sin definir")
 
     except Exception as e:
         # Captura qualquer outro erro e exibe na interface
@@ -200,7 +200,7 @@ frame_topo.place(relx=1.0, rely=0.0, anchor="ne")
 # carregar imagens
 img_br_color, img_br_gray = carregar_bandeira("images/br.png")
 img_en_color, img_en_gray = carregar_bandeira("images/us.png")
-img_cn_color, img_cn_gray = carregar_bandeira("images/cn.png")
+img_es_color, img_es_gray = carregar_bandeira("images/esp.png")
 
 botao_br = ctk.CTkButton(
     frame_topo, text="", image=img_br_color,
@@ -216,12 +216,12 @@ botao_en = ctk.CTkButton(
 )
 botao_en.pack(side="left", padx=5, pady=5)
 
-botao_cn = ctk.CTkButton(
-    frame_topo, text="", image=img_cn_gray,
+botao_es = ctk.CTkButton(
+    frame_topo, text="", image=img_es_gray,
     width=40, fg_color="transparent", hover=False,
-    command=lambda: selecionar_idioma("cn")
+    command=lambda: selecionar_idioma("es")
 )
-botao_cn.pack(side="left", padx=5, pady=5)
+botao_es.pack(side="left", padx=5, pady=5)
 
 # estado inicial
 atualizar_botoes_idioma()
@@ -271,8 +271,8 @@ def gerar_assembly(codigo_python):
                             raise Exception(f"Código Ultrapassou o Número de Variáveis Permitido")
                         elif idioma == "en":
                             raise Exception(f"Code Exceeded the Maximum Number of Variables")
-                        elif idioma == "cn":
-                            raise Exception(f"代码超过了允许的变量数量")
+                        elif idioma == "es":
+                            raise Exception(f"El código ha superado el número máximo de variables permitido")
                         
 
                 ultimo_reg = reg_var
@@ -289,10 +289,10 @@ def gerar_assembly(codigo_python):
                             f"   li t{reg_var}, {valor}                 "
                             f"# Store the value {valor} in register t{reg_var}\n\n"
                         )
-                    elif idioma == "cn":
+                    elif idioma == "es":
                         f.write(
                             f"   li t{reg_var}, {valor}                 "
-                            f"# 将值 {valor} 存入寄存器 t{reg_var}\n\n"
+                            f"# Almacena el valor {valor} en el registro t{reg_var}\n\n"
                         )
             # =========================
             # SOMA
@@ -306,8 +306,8 @@ def gerar_assembly(codigo_python):
                         raise Exception(f"Código tem uma Variável não definida")
                     elif idioma == "en":
                         raise Exception(f"The code contains an undefined variable")
-                    elif idioma == "cn":
-                        raise Exception(f"代码中存在未定义的变量")
+                    elif idioma == "es":
+                        raise Exception(f"El código contiene una variable sin definir")
                     
                 r1 = registradores[op1]
                 r2 = registradores[op2]
@@ -325,16 +325,16 @@ def gerar_assembly(codigo_python):
                             raise Exception(f"Código Ultrapassou o Número de Variáveis Permitido")
                         elif idioma == "en":
                             raise Exception(f"Code Exceeded the Maximum Number of Variables")
-                        elif idioma == "cn":
-                            raise Exception(f"代码超过了允许的变量数量")
+                        elif idioma == "es":
+                            raise Exception(f"El código ha superado el número máximo de variables permitido")
                         
                 
                 if idioma == "pt":
                     f.write(f"   add t{reg_dest}, t{r1}, t{r2}              # Soma o valor armazenado em t{r1} com o armazenado em t{r2} e armazena o resultado no registrador t{reg_dest} \n\n")
                 elif idioma == "en":
                     f.write(f"   add t{reg_dest}, t{r1}, t{r2}              # Soma o valor armazenado em t{r1} com o armazenado em t{r2} e armazena o resultado no registrador t{reg_dest} \n\n")
-                elif idioma == "cn":
-                    f.write(f"   add t{reg_dest}, t{r1}, t{r2}              # Soma o valor armazenado em t{r1} com o armazenado em t{r2} e armazena o resultado no registrador t{reg_dest} \n\n")
+                elif idioma == "es":
+                    f.write(f"   add t{reg_dest}, t{r1}, t{r2}              # Suma el valor almacenado en t{r1} con el almacenado en t{r2} y almacena el resultado en el registro t{reg_dest} \n\n")
                 ultimo_reg = reg_dest
                 
             # =========================
@@ -353,8 +353,8 @@ def gerar_assembly(codigo_python):
                             raise Exception(f"Formato inválido para subtração")
                         elif idioma == "en":
                             raise Exception(f"Invalid format for subtraction")
-                        elif idioma == "cn":
-                            raise Exception(f"减法格式无效")
+                        elif idioma == "es":
+                            raise Exception(f"Formato no válido para la resta")
 
                     var_dest = partes[0].strip()
                     op1 = partes[1].strip()
@@ -376,8 +376,8 @@ def gerar_assembly(codigo_python):
                         raise Exception(f"Formato inválido para subtração")
                     elif idioma == "en":
                         raise Exception(f"Invalid format for subtraction")
-                    elif idioma == "cn":
-                            raise Exception(f"减法格式无效")
+                    elif idioma == "es":
+                            raise Exception(f"Formato no válido para la resta")
 
 
                 # Validação das variáveis de origem
@@ -386,16 +386,16 @@ def gerar_assembly(codigo_python):
                         raise Exception(f"Código tem uma Variável não definida")
                     elif idioma == "en":
                         raise Exception(f"The code contains an undefined variable")
-                    elif idioma == "cn":
-                        raise Exception(f"代码中存在未定义的变量")
+                    elif idioma == "es":
+                        raise Exception(f"El código contiene una variable sin definir")
                                         
                 if op2 not in registradores:
                     if idioma == "pt":   
                         raise Exception(f"Código tem uma Variável não definida")
                     elif idioma == "en":
                         raise Exception(f"The code contains an undefined variable")
-                    elif idioma == "cn":
-                        raise Exception(f"代码中存在未定义的变量")
+                    elif idioma == "es":
+                        raise Exception(f"El código contiene una variable sin definir")
 
                 r1 = registradores[op1]
                 r2 = registradores[op2]
@@ -413,16 +413,16 @@ def gerar_assembly(codigo_python):
                             raise Exception(f"Código Ultrapassou o Número de Variáveis Permitido")
                         elif idioma == "en":
                             raise Exception(f"Code Exceeded the Maximum Number of Variables")
-                        elif idioma == "cn":
-                            raise Exception(f"代码超过了允许的变量数量")
+                        elif idioma == "es":
+                            raise Exception(f"El código ha superado el número máximo de variables permitido")
                         
                 # Geração do assembly
                 if idioma == "pt":
                     f.write(f"   sub t{reg_dest}, t{r1}, t{r2}              # Subtrai o valor armazenado em t{r1} do valor armazenado em t{r2} e armazena no registrador t{reg_dest} \n\n")
                 elif idioma == "en":
                     f.write(f"   sub t{reg_dest}, t{r1}, t{r2}              # Subtrai o valor armazenado em t{r1} do valor armazenado em t{r2} e armazena no registrador t{reg_dest} \n\n")
-                elif idioma == "cn":
-                    f.write(f"   sub t{reg_dest}, t{r1}, t{r2}              # Subtrai o valor armazenado em t{r1} do valor armazenado em t{r2} e armazena no registrador t{reg_dest} \n\n")
+                elif idioma == "es":
+                    f.write(f"   sub t{reg_dest}, t{r1}, t{r2}              # Resta el valor almacenado en t{r1} del valor almacenado en t{r2} y lo almacena en el registro t{reg_dest} \n\n")
 
                 ultimo_reg = reg_dest
             
@@ -441,10 +441,10 @@ def gerar_assembly(codigo_python):
                     f.write("   li a7, 1             # Loads the value 1 into register a7, which defines the syscall code (system service); 1 = print integer  \n")
                     f.write(f"   add a0, t{r}, zero    # Copies the value from register t2 to a0; a0 is the register used to pass the syscall argument, the integer that will be printed   \n") 
                     f.write("   ecall                # Performs an environment call\n\n")                    
-                elif idioma == "cn":
-                    f.write("   li a7, 1             # 将值 1 写入寄存器 a7，该值定义了系统调用（syscall）的代码，1 表示“打印整数”（print integer）\n")
-                    f.write(f"   add a0, t{r}, zero    # 将寄存器 t2 的值复制到 a0，a0 是用于传递系统调用参数的寄存器，即待输出的整数\n") 
-                    f.write("   ecall                # 执行系统调用（environment call）\n\n")
+                elif idioma == "es":
+                    f.write("   li a7, 1             # Carga el valor 1 en el registro a7, que define el código de la llamada al sistema (syscall), 1 = imprimir entero (print integer) \n")
+                    f.write(f"   add a0, t{r}, zero    # Copia el valor del registro t2 a a0; a0 es el registro que se utiliza para pasar el argumento de la llamada al sistema, el entero que se imprimirá  \n") 
+                    f.write("   ecall                # Ejecuta una llamada al sistema (environment call)\n\n")
 
             # =========================
             # IF IGUAL (BEQ)
@@ -458,15 +458,15 @@ def gerar_assembly(codigo_python):
                         raise Exception(f"Código tem uma Variável não definida")
                     elif idioma == "en":
                         raise Exception(f"The code contains an undefined variable")
-                    elif idioma == "cn":
-                        raise Exception(f"代码中存在未定义的变量")
+                    elif idioma == "es":
+                        raise Exception(f"El código contiene una variable sin definir")
                 if var2 not in registradores:
                     if idioma == "pt":   
                         raise Exception(f"Código tem uma Variável não definida")
                     elif idioma == "en":
                         raise Exception(f"The code contains an undefined variable")
-                    elif idioma == "cn":
-                        raise Exception(f"代码中存在未定义的变量")
+                    elif idioma == "es":
+                        raise Exception(f"El código contiene una variable sin definir")
 
                 r1 = registradores[var1]
                 r2 = registradores[var2]
@@ -494,9 +494,9 @@ def gerar_assembly(codigo_python):
                 elif idioma == "en":
                     f.write(f"   beq t{r1}, t{r2}, {label_true}      # Compare the stored values, if t{r1} = t{r2} jump to {label_true}, if not, continue \n\n")
                     f.write(f"   j {label_end}             # Jump to {label_end} \n\n")
-                elif idioma == "cn":
-                    f.write(f"   beq t{r1}, t{r2}, {label_true}      # 比较存储的值,  如果 t{r1} = t{r2} 则跳转至 {label_true}, 否则继续执行 \n\n")
-                    f.write(f"   j {label_end}             # 跳转至 {label_end} \n\n")
+                elif idioma == "es":
+                    f.write(f"   beq t{r1}, t{r2}, {label_true}      # Compara los valores almacenados; si t{r1} = t{r2}, salta a {label_true}; si no, continúa \n")
+                    f.write(f"   j {label_end}             # Saltar a {label_end} si es diferente \n\n")
                         
             # =========================
             # IF MAIOR (BGT)
@@ -510,15 +510,15 @@ def gerar_assembly(codigo_python):
                         raise Exception(f"Código tem uma Variável não definida")
                     elif idioma == "en":
                         raise Exception(f"The code contains an undefined variable")
-                    elif idioma == "cn":
-                        raise Exception(f"代码中存在未定义的变量")
+                    elif idioma == "es":
+                        raise Exception(f"El código contiene una variable sin definir")
                 if var2 not in registradores:
                     if idioma == "pt":   
                         raise Exception(f"Código tem uma Variável não definida")
                     elif idioma == "en":
                         raise Exception(f"The code contains an undefined variable")
-                    elif idioma == "cn":
-                        raise Exception(f"代码中存在未定义的变量")
+                    elif idioma == "es":
+                        raise Exception(f"El código contiene una variable sin definir")
 
                 r1 = registradores[var1]
                 r2 = registradores[var2]
@@ -548,9 +548,9 @@ def gerar_assembly(codigo_python):
                 elif idioma == "en":
                     f.write(f"   bgt t{r1}, t{r2}, {label_true}      # If t{r1} > t{r2}, jump to {label_true}\n\n")
                     f.write(f"   j {label_end}             # Otherwise jump to {label_end}\n\n")
-                elif idioma == "cn":
-                    f.write(f"   bgt t{r1}, t{r2}, {label_true}      # 如果 t{r1} > t{r2}, 跳转到 {label_true}\n\n")
-                    f.write(f"   j {label_end}             # 否则跳转到 {label_end}\n\n")
+                elif idioma == "es":
+                    f.write(f"   bgt t{r1}, t{r2}, {label_true}      # Si t{r1} > t{r2}, salta a {label_true}\n")
+                    f.write(f"   j {label_end}             # Si no, salta a {label_end}\n\n")
 
             # =========================
             # IF MENOR (BLT)
@@ -564,15 +564,15 @@ def gerar_assembly(codigo_python):
                         raise Exception(f"Código tem uma Variável não definida")
                     elif idioma == "en":
                         raise Exception(f"The code contains an undefined variable")
-                    elif idioma == "cn":
-                        raise Exception(f"代码中存在未定义的变量")
+                    elif idioma == "es":
+                        raise Exception(f"El código contiene una variable sin definir")
                 if var2 not in registradores:
                     if idioma == "pt":   
                         raise Exception(f"Código tem uma Variável não definida")
                     elif idioma == "en":
                         raise Exception(f"The code contains an undefined variable")
-                    elif idioma == "cn":
-                        raise Exception(f"代码中存在未定义的变量")
+                    elif idioma == "es":
+                        raise Exception(f"El código contiene una variable sin definir")
 
                 r1 = registradores[var1]
                 r2 = registradores[var2]
@@ -596,16 +596,16 @@ def gerar_assembly(codigo_python):
 
                 # a <= b  <=>  b >= a
                 if idioma == "pt":
-                    f.write(f"   blt t{r2}, t{r1}, {label_true}\n")
-                    f.write(f"   j {label_end}\n\n")
+                    f.write(f"   blt t{r2}, t{r1}, {label_true}      #Se t{r1} < t{r2}, pula para {label_true} \n\n")
+                    f.write(f"   j {label_end}      #Senao, pula para {label_end} \n\n")
                 
                 elif idioma == "en":
                     f.write(f"   blt t{r1}, t{r2}, {label_true}      # If t{r1} < t{r2}, jump to {label_true}\n\n")
                     f.write(f"   j {label_end}             # Otherwise jump to {label_end}\n\n")
                
-                elif idioma == "cn":
-                    f.write(f"   blt t{r1}, t{r2}, {label_true}      # 如果 t{r1} < t{r2}, 跳转到 {label_true}\n\n")
-                    f.write(f"   j {label_end}             # 否则跳转到 {label_end}\n\n")
+                elif idioma == "es":
+                    f.write(f"   blt t{r1}, t{r2}, {label_true}      #Si t{r1} < t{r2}, salta a {label_true} \n\n")
+                    f.write(f"   j {label_end}             #Si no, salta a {label_end} \n\n")
 
 
             elif linha == "IF_START":
@@ -614,8 +614,8 @@ def gerar_assembly(codigo_python):
                         raise Exception("IF_START encontrado sem um IF correspondente.")
                     elif idioma == "en":
                         raise Exception("IF_START found without a corresponding IF.")
-                    elif idioma == "cn":
-                        raise Exception("发现 IF_START，但未找到对应的 IF。")
+                    elif idioma == "es":
+                        raise Exception("IF_START encontrado sin un IF correspondiente.")
 
                 labels = stack_labels[-1]
                 f.write(f"{labels['true']}:\n")
@@ -633,10 +633,10 @@ def gerar_assembly(codigo_python):
                         "The 'else' block is not supported in RISC-V assembly generation. "
                         "Please use only the 'if ... then' structure."
                     )
-                elif idioma == "cn":
+                elif idioma == "es":
                     raise Exception(
-                        "RISC-V 汇编生成不支持 'else' 块。"
-                        "请仅使用 'if ... then' 结构。"
+                        "El bloque 'si no' no es compatible con la generación de código ensamblador RISC-V. "
+                        "Utiliza únicamente la estructura 'si ... entonces'."
                     )
 
             elif linha == "IF_END":
@@ -645,8 +645,8 @@ def gerar_assembly(codigo_python):
                         raise Exception("IF_END encontrado sem um IF correspondente.")
                     elif idioma == "en":
                         raise Exception("IF_END found without a corresponding IF.")
-                    elif idioma == "cn":
-                        raise Exception("发现没有对应 IF 的 IF_END。")
+                    elif idioma == "es":
+                        raise Exception("IF_END encontrado sin un Si correspondiente.")
 
                 labels = stack_labels.pop()
                 f.write(f"{labels['end']}:\n\n")
