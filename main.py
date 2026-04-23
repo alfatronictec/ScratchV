@@ -7,6 +7,8 @@ from PIL import Image, ImageTk, ImageEnhance
 from core import load_sb3, gerar_codigo_python
 import subprocess
 
+# Comando Pyinstaller
+# pyinstaller --onefile --noconsole --icon=images/icon.ico --add-data "images;images" main.py
 
 idioma = "pt"
 codigo_python = 0
@@ -242,7 +244,7 @@ def get_base_path():
         raise Exception("Não foi possível criar diretório em nenhum local.")
     elif idioma == "es":
         raise Exception("No se ha podido crear el directorio en ninguna ubicación.")
-    elif idioma == "es":
+    elif idioma == "en":
         raise Exception("The directory could not be created in any location.")
     
 def get_nome_arquivo():
