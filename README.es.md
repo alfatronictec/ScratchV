@@ -4,9 +4,10 @@
 
 [⬇️ Descargar ScratchV (.exe)](https://github.com/alfatronictec/ScratchV/releases/download/v1.0/ScratchV.exe)
 
-## Requisitos
+## 💻 Compatibilidad
 
-- Windows 10/11
+- ✅ Compatible con Windows 10 y 11
+- ✅ Compatible con Ubuntu 22.04 o superior y sus derivados (basados en Ubuntu)
 
 ## Idiomas
 
