@@ -76,6 +76,10 @@ Sigue los pasos que se indican a continuación para utilizar la herramienta.
 
   ![When Clicked](images/images%20readme/when_clicked.png)
 
+- Después del bloque «Al hacer clic en», declara todas las variables que vayas a utilizar.
+
+  ![When Clicked](images/images%20readme/set_variaveis.png)
+  
 - Finalice el código con el siguiente bloque: Detener todos
 
   ![When Clicked](images/images%20readme/stop%20all.png)
