@@ -81,6 +81,10 @@ Follow the steps below to use the tool.
 
   ![When Clicked](images/images%20readme/when_clicked.png)
 
+- After the “When Clicked” block, declare all the variables you will be using.
+
+  ![When Clicked](images/images%20readme/set_variaveis.png)
+  
 - End the code with the following block:
 
   ![When Clicked](images/images%20readme/stop%20all.png)
