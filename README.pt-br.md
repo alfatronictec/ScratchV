@@ -82,6 +82,8 @@ Siga os passos abaixo para utilizar a ferramenta.
 
   ![When Clicked](images/images%20readme/stop%20all.png)
 
+- Após o bloco Quando for Clicado, declare todas as variaveis que irá utilizar.
+
 - No seu código no Scratch, utilize apenas as seguintes operações:
   
   - Adição e Subtração:
