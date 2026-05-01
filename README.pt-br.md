@@ -78,11 +78,13 @@ Siga os passos abaixo para utilizar a ferramenta.
 
   ![When Clicked](images/images%20readme/when_clicked.png)
 
+- Após o bloco Quando for Clicado, declare todas as variaveis que irá utilizar.
+
+ ![When Clicked](images/images%20readme/set_variaveis.png)
+
 - Finalize o código com o seguinte bloco: Pare Todos
 
   ![When Clicked](images/images%20readme/stop%20all.png)
-
-- Após o bloco Quando for Clicado, declare todas as variaveis que irá utilizar.
 
 - No seu código no Scratch, utilize apenas as seguintes operações:
   
