@@ -1,3 +1,8 @@
+# SPDX-License-Identifier: GPL-3.0-or-later
+#
+# ScratchV
+# Copyright (C) 2026 Eduardo Pereira
+
 import zipfile
 import json
 import operator
