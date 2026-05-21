@@ -121,7 +121,6 @@ After creating the program in Scratch:
 ## License
 
 This project is licensed under the GNU GPL v3.0.
-
 See the LICENSE file for details.
 
 ## Author
