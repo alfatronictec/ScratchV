@@ -126,9 +126,3 @@ https://www.youtube.com/watch?v=gOYWo_wCVlM
 
 This project is licensed under the GNU GPL v3.0.
 See the LICENSE file for details.
-
-## Author
-
-**Eduardo Pereira**  
-Master's student in Computer Science <br> 
-**UFRGS-BR**
