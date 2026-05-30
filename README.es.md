@@ -113,14 +113,12 @@ Después de crear el programa en Scratch:
 2- Carga el archivo .sb3  <br>
 3- Una vez cargado el archivo, ScratchV generará el archivo .asm en tu ordenador  <br>  
 
+## Video tutorial
+
+https://www.youtube.com/watch?v=gOYWo_wCVlM
+
 ## Licencia
 
 Este proyecto está bajo la licencia GNU GPL v3.0.
 Consulte el archivo LICENSE para obtener más información.
-
-## Autor
-
-**Eduardo Pereira**  
-Estudiante de máster en Informática <br>
-**UFRGS-BR**
 
